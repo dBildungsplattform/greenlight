@@ -40,11 +40,10 @@ export default function Room() {
   const { t } = useTranslation();
   const { friendlyId } = useParams();
   const {
-    isLoading: isRoomLoading, isError, data: room, error,
+    isLoading: isRoomLoading, data: room,
   } = useRoom(friendlyId);
   const startMeeting = useStartMeeting(friendlyId);
   const currentUser = useAuth();
-  const location = useLocation();
   const localizedTime = localizeDayDateTimeString(room?.last_session, currentUser?.language);
 
   // Custom logic to redirect from Rooms page to join page if this isnt the users room and they're not allowed to view it
