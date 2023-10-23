@@ -62,7 +62,7 @@ module Api
         return render_error status: :bad_request unless params[:user]
 
         @user = User.find_by id: params[:user][:id]
-        render_data status: :ok unless @user && !@user.verified?
+        return render_data status: :ok unless @user && !@user.verified?
       end
     end
   end

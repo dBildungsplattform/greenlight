@@ -95,6 +95,3 @@ Rails/Output:
 Rails/RootPathnameMethods:
   Enabled: false
 
-Rails/ThreeStateBooleanColumn:
-  Enabled: false
-

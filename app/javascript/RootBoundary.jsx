@@ -18,7 +18,6 @@ import React from 'react';
 import { useRouteError } from 'react-router-dom';
 import DefaultErrorPage from './components/errors/DefaultErrorPage';
 import NotFoundPage from './components/errors/NotFoundPage';
-import ForbiddenRouter from './routes/ForbiddenRouter';
 
 export default function RootBoundary() {
   const error = useRouteError();
@@ -27,8 +26,6 @@ export default function RootBoundary() {
   switch (status) {
     case 404:
       return <NotFoundPage />;
-    case 403:
-      return <ForbiddenRouter />;
     default:
       return <DefaultErrorPage />;
   }
