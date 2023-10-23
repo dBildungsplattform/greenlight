@@ -48,10 +48,9 @@ export default function JoinCard() {
   const currentUser = useAuth();
   const { friendlyId } = useParams();
   const [hasStarted, setHasStarted] = useState(false);
-  const [joinInterval, setJoinInterval] = useState();
 
   const publicRoom = usePublicRoom(friendlyId);
-  const roomStatusAPI = useRoomStatus(friendlyId, joinInterval);
+  const roomStatusAPI = useRoomStatus(friendlyId);
 
   const { data: env } = useEnv();
 
@@ -77,8 +76,6 @@ export default function JoinCard() {
     }
 
     roomStatusAPI.mutate(data);
-    const interval = setInterval(() => roomStatusAPI.mutate(data), 5000);
-    setJoinInterval(interval);
   };
   const reset = () => { setHasStarted(false); };// Reset pipeline;
 
@@ -105,8 +102,6 @@ export default function JoinCard() {
 
   // Play a sound and displays a toast when the meeting starts if the user was in a waiting queue
   const notifyMeetingStarted = () => {
-    clearInterval(joinInterval);
-
     const audio = new Audio(`${process.env.RELATIVE_URL_ROOT}/audios/notify.mp3`);
     audio.play()
       .catch((err) => {

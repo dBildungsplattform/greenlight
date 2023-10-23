@@ -46,6 +46,7 @@ namespace :poller do
     online_meetings = Room.includes(:user).where(online: true)
 
     RunningMeetingChecker.new(rooms: online_meetings).call
+
   rescue StandardError => e
     err "Unable to poll meetings. Error: #{e}"
   end
@@ -71,6 +72,7 @@ namespace :poller do
         end
 
         RecordingCreator.new(recording:).call
+
       rescue StandardError => e
         err "Unable to poll Recording:\nRecordID: #{recording[:recordID]}\nError: #{e}"
         next

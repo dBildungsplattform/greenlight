@@ -45,7 +45,7 @@ module Api
 
         render_data data: config_value, status: :ok
       rescue StandardError
-        render_error status: :not_found unless config_value
+        return render_error status: :not_found unless config_value
       end
     end
   end

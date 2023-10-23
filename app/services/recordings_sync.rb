@@ -23,9 +23,7 @@ class RecordingsSync
   end
 
   def call
-    recordings = @room.recordings
-    Format.where(recordings:).delete_all
-    recordings.delete_all
+    @room.recordings.destroy_all
 
     recordings = BigBlueButtonApi.new(provider: @provider).get_recordings(meeting_ids: @room.meeting_id)
     recordings[:recordings].each do |recording|
