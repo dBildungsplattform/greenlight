@@ -18,9 +18,7 @@ import React from 'react';
 import {
   Stack, Button, Col, Row,
 } from 'react-bootstrap';
-import {
-  Link, Navigate, useLocation, useParams,
-} from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { HomeIcon, ShareIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../../contexts/auth/AuthProvider';
@@ -45,11 +43,6 @@ export default function Room() {
   const startMeeting = useStartMeeting(friendlyId);
   const currentUser = useAuth();
   const localizedTime = localizeDayDateTimeString(room?.last_session, currentUser?.language);
-
-  // Custom logic to redirect from Rooms page to join page if this isnt the users room and they're not allowed to view it
-  if (isError && error.response.status === 403) {
-    return <Navigate to={`${location.pathname}/join`} />;
-  }
 
   return (
     <>
