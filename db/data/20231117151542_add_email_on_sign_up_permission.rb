@@ -16,22 +16,21 @@
 
 # frozen_string_literal: true
 
-module Api
-  module V1
-    class EnvController < ApiController
-      skip_before_action :ensure_authenticated
+class AddEmailOnSignUpPermission < ActiveRecord::Migration[7.1]
+  def up
+    email_permission = Permission.create!(name: 'EmailOnSignup')
+    admin = Role.find_by(name: 'Administrator')
 
-      # GET /api/v1/env
-      # Returns basic NON-CONFIDENTIAL information on the environment variables
-      def index
-        render_data data: {
-          EXTERNAL_AUTH: external_auth?,
-          HCAPTCHA_KEY: ENV.fetch('HCAPTCHA_SITE_KEY', nil),
-          VERSION_TAG: ENV.fetch('VERSION_TAG', ''),
-          CURRENT_PROVIDER: current_provider,
-          SMTP_ENABLED: ENV.fetch('SMTP_SERVER', nil)
-        }, status: :ok
-      end
+    values = [{ role: admin, permission: email_permission, value: 'true' }]
+
+    Role.where.not(name: 'Administrator').each do |role|
+      values.push({ role:, permission: email_permission, value: 'false' })
     end
+
+    RolePermission.create! values
+  end
+
+  def down
+    raise ActiveRecord::IrreversibleMigration
   end
 end
