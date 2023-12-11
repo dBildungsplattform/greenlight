@@ -6,7 +6,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '>= 3.0'
 
 gem 'active_model_serializers', '>= 0.10.14'
-gem 'active_storage_validations', '>= 1.0.4'
+gem 'active_storage_validations', '>= 1.1.0'
 gem 'aws-sdk-s3', require: false
 gem 'bcrypt', '~> 3.1.7'
 gem 'bigbluebutton-api-ruby', '1.9.1'
@@ -29,7 +29,7 @@ gem 'omniauth-rails_csrf_protection', '~> 1.0.1'
 gem 'pagy', '~> 6.0', '>= 6.0.0'
 gem 'pg'
 gem 'puma', '~> 5.6'
-gem 'rails', '~> 7.1.0'
+gem 'rails', '~> 7.1.1'
 gem 'redis', '~> 4.0'
 gem 'sprockets-rails'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
@@ -48,9 +48,10 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'factory_bot_rails'
+  gem 'factory_bot', '>= 6.4.1'
+  gem 'factory_bot_rails', '>= 6.3.0'
   gem 'faker'
-  gem 'rspec-rails', '>= 6.0.2'
+  gem 'rspec-rails', '>= 6.0.4'
   gem 'selenium-webdriver'
   gem 'shoulda-matchers', '~> 5.0'
   gem 'webdrivers'
