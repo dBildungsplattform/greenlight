@@ -18,38 +18,44 @@ import { createEvent } from "ics";
 import { saveAs } from "file-saver";
 
 
-export const createICSContent = (name, room_name, url, voice_bridge, voice_bridge_phone_number, t, use_html=false) => {
+const use_html = false;
+
+const createICSContent = (name, room_name, url, voice_bridge, voice_bridge_phone_number, t) => {
   if (use_html) {
     return createICSWithHtml(name, room_name, url,voice_bridge,voice_bridge_phone_number, t);
+  } else {
+    return createICSWithoutHTML(name, room_name, url, voice_bridge, voice_bridge_phone_number, t);
   }
+}
 
-
-  description = `\n\n${t('room.meeting.invite_to_meeting', {name})}\n\n${t('room.meeting.join_by_url')}:\n${url}\n`;
+const createICSWithoutHTML = (name, room_name, url, voice_bridge, voice_bridge_phone_number, t) => {
+  let description = `\n\n${t('room.meeting.invite_to_meeting', {name})}\n\n${t('room.meeting.join_by_url')}:\n${url}\n`;
 
   if (typeof voice_bridge !== 'undefined' && typeof voice_bridge_phone_number !== 'undefined') {
-    description += `\n${t('or')} ${t('room.meeting.join_by_phone')}:\n${voice_bridge_phone_number},,${voice_bridge}`;
+    description += `\n${t('room.meeting.join_by_phone')}: ${voice_bridge_phone_number},,${voice_bridge}\nPIN: ${voice_bridge}`;
   }
 
   const date = new Date();
 
-  return eventContent = {
-    start: [date.getFullYear(), date.getMonth(), date.getDay(), 12, 0],
+  return {
+    start: [date.getFullYear(), date.getMonth() + 1, date.getDate(), 12, 0],
     url: url,
     description: description,
     title: room_name,
+    location: t('room.meeting.location')
   };
 }
 
 const createICSWithHtml = (name, room_name, url, voice_bridge, voice_bridge_phone_number,t) => {
-  phone_data = "";
+  let phone_data = "";
 
   if (typeof voice_bridge !== 'undefined' && typeof voice_bridge_phone_number !== 'undefined') {
-    phone_data = `<h6 style="padding-top: 0; padding-bottom: 0; font-weight: 500; vertical-align: baseline; font-size: 16px; line-height: 19.2px; margin: 0;" align="left">${t('or')} ${t('room.meeting.join_by_phone')}:</h6>
+    phone_data = `<h6 style="padding-top: 0; padding-bottom: 0; font-weight: 500; vertical-align: baseline; font-size: 16px; line-height: 19.2px; margin: 0;" align="left">${t('room.meeting.join_by_phone')}:</h6>
         <p style="line-height: 24px; font-size: 16px; width: 100%; margin: 0;" align="left">${voice_bridge_phone_number},,${voice_bridge}</p>`;
   }
 
   const HTML = `<head>
-    <!-- Compiled with Bootstrap Email version: 1.3.1 --><meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="x-apple-disable-message-reformatting">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
@@ -64,7 +70,7 @@ const createICSWithHtml = (name, room_name, url, voice_bridge, voice_bridge_phon
         <tr>
           <td valign="top" style="line-height: 24px; font-size: 16px; margin: 0;" align="left">
             <div>
-              <p style="line-height: 24px; font-size: 16px; width: 100%; margin: 0;" align="left">Hallo ...</p>
+              <p style="line-height: 24px; font-size: 16px; width: 100%; margin: 0;" align="left"></p>
             </div>
             <table class="container-fluid" role="presentation" border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
               <tbody>
@@ -108,11 +114,11 @@ const createICSWithHtml = (name, room_name, url, voice_bridge, voice_bridge_phon
                       </tbody>
                     </table>
                     <br>
-                    <h5 style="padding-top: 0; padding-bottom: 0; font-weight: 500; vertical-align: baseline; font-size: 20px; line-height: 24px; margin: 0;" align="left">${t('room.meetings.alternative')}:</h5>
+                    <h5 style="padding-top: 0; padding-bottom: 0; font-weight: 500; vertical-align: baseline; font-size: 20px; line-height: 24px; margin: 0;" align="left">${t('room.meeting.alternative_options')}:</h5>
                     <h6 style="padding-top: 0; padding-bottom: 0; font-weight: 500; vertical-align: baseline; font-size: 16px; line-height: 19.2px; margin: 0;" align="left">${t('room.meeting.join_by_url')}</h6>
                     <p style="line-height: 24px; font-size: 16px; width: 100%; margin: 0;" align="left"><a style="color: #0d6efd;">${url}</a></p>
                     <br>
-                    ${tel}
+                    ${phone_data}
                   </td>
                 </tr>
               </tbody>
@@ -125,11 +131,12 @@ const createICSWithHtml = (name, room_name, url, voice_bridge, voice_bridge_phon
 
   const date = new Date();
 
-  return eventContent = {
-    start: [date.getFullYear(), date.getMonth(), date.getDay(), 12, 0],
+  return {
+    start: [date.getFullYear(), date.getMonth() + 1, date.getDate(), 12, 0],
     url: url,
     htmlContent: HTML,
-    title: room_name
+    title: room_name,
+    location: t('room.meeting.location')
   };
 }
 
