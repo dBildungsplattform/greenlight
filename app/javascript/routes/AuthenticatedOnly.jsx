@@ -50,6 +50,10 @@ export default function AuthenticatedOnly() {
     return <Navigate to="/admin/users" />;
   }
 
+  if (currentUser.signed_in && currentUser.isSuperAdmin && !superAdminMatch) {
+    return <Navigate to="/admin/users" />;
+  }
+
   if (!currentUser.signed_in) {
     toast.error(t('toast.error.signin_required'));
     return <Navigate to="/" />;
