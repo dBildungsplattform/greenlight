@@ -70,7 +70,7 @@ Metrics/ClassLength:
 # A calculated magnitude based on number of assignments,
 # branches, and conditions.
 Metrics/AbcSize:
-  Max: 65
+  Max: 80
 
 Metrics/ParameterLists:
   CountKeywordArgs: false
@@ -79,10 +79,10 @@ RSpec/AnyInstance:
   Enabled: false
 
 Metrics/CyclomaticComplexity:
-  Max: 16
+  Max: 17
 
 Metrics/PerceivedComplexity:
-  Max: 15
+  Max: 17
 
 Rails/Exit:
   Exclude:

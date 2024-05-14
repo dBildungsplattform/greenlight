@@ -30,7 +30,15 @@ class ExternalController < ApplicationController
 
     user_info = build_user_info(credentials)
 
-    user = User.find_by(external_id: credentials['uid'], provider:) || User.find_by(email: credentials['info']['email'], provider:)
+    user = User.find_by(external_id: credentials['uid'], provider:)
+
+    # Fallback mechanism to search by email
+    if user.blank?
+      user = User.find_by(email: credentials['info']['email'], provider:)
+      # Update the user's external id to the latest value to avoid using the fallback
+      user.update(external_id: credentials['uid']) if user.present? && credentials['uid'].present?
+    end
+
     new_user = user.blank?
 
     registration_method = SettingGetter.new(setting_name: 'RegistrationMethod', provider: current_provider).call
@@ -45,6 +53,12 @@ class ExternalController < ApplicationController
       user = UserCreator.new(user_params: user_info, provider: current_provider, role: default_role).call
       user.save!
       create_default_room(user)
+
+      # Send admins an email if smtp is enabled
+      if ENV['SMTP_SERVER'].present?
+        UserMailer.with(user:, admin_panel_url:, base_url: request.base_url,
+                        provider: current_provider).new_user_signup_email.deliver_later
+      end
     end
 
     if SettingGetter.new(setting_name: 'ResyncOnLogin', provider:).call
@@ -129,7 +143,7 @@ class ExternalController < ApplicationController
     return false if token.blank?
 
     # Try to delete the invitation and return true if it succeeds
-    Invitation.destroy_by(email:, provider: current_provider, token:).present?
+    Invitation.destroy_by(email: email.downcase, provider: current_provider, token:).present?
   end
 
   def build_user_info(credentials)

@@ -16,33 +16,21 @@
 
 # frozen_string_literal: true
 
-class UserCreator
-  def initialize(user_params:, provider:, role:)
-    @user_params = user_params
-    @provider = provider
-    @role = role
-    @roles_mappers = SettingGetter.new(setting_name: 'RoleMapping', provider:).call
+class AddEmailOnSignUpPermission < ActiveRecord::Migration[7.1]
+  def up
+    email_permission = Permission.create!(name: 'EmailOnSignup')
+    admin = Role.find_by(name: 'Administrator')
+
+    values = [{ role: admin, permission: email_permission, value: 'true' }]
+
+    Role.where.not(name: 'Administrator').each do |role|
+      values.push({ role:, permission: email_permission, value: 'false' })
+    end
+
+    RolePermission.create! values
   end
 
-  def call
-    @user_params[:email] = @user_params[:email].downcase
-    email_role = infer_role_from_email(@user_params[:email])
-
-    User.new({
-      provider: @provider,
-      role: email_role || @role
-    }.merge(@user_params))
-  end
-
-  private
-
-  def infer_role_from_email(email)
-    matched_rule = if @roles_mappers
-                     rules = @roles_mappers.split(',').map { |rule| rule.split('=') }
-
-                     rules.find { |rule| email.ends_with? rule.second if rule.second }
-                   end
-
-    Role.find_by(name: matched_rule&.first, provider: @provider)
+  def down
+    raise ActiveRecord::IrreversibleMigration
   end
 end

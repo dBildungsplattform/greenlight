@@ -73,4 +73,4 @@ de:
       link_expires: Der Link wird in 1 Stunde ungültig.
       ignore_request: "Wenn du dein Passwort nicht ändern wolltest, dann ignoriere bitte diese E-Mail."
   room:
-    new_room_name: "Raum von %{username}"
+    new_room_name: "%{username}'s Raum"
