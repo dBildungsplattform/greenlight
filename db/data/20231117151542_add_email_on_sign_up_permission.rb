@@ -23,7 +23,7 @@ class AddEmailOnSignUpPermission < ActiveRecord::Migration[7.1]
 
     values = [{ role: admin, permission: email_permission, value: 'true' }]
 
-    Role.where.not(name: 'Administrator').each do |role|
+    Role.where.not(name: 'Administrator').find_each do |role|
       values.push({ role:, permission: email_permission, value: 'false' })
     end
 

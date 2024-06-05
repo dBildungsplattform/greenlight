@@ -1,3 +1,4 @@
+
 // BigBlueButton open source conferencing system - http://www.bigbluebutton.org/.
 //
 // Copyright (c) 2022 BigBlueButton Inc. and by respective authors (see below).
@@ -18,35 +19,37 @@ import React from 'react';
 import { Button, Stack } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import FormControl from '../../../shared_components/forms/FormControl';
-import Form from '../../../shared_components/forms/Form';
 import Spinner from '../../../shared_components/utilities/Spinner';
 import useAdminCreateUser from '../../../../hooks/mutations/admin/manage_users/useAdminCreateUser';
-import useUserSignupForm from '../../../../hooks/forms/admin/manage_users/useUserSignupForm';
 
-export default function UserSignupForm({ handleClose }) {
+
+export default function UserSignupForm({ handleClose, users }) {
   const { t } = useTranslation();
-  const { fields, methods } = useUserSignupForm();
   const createUserAPI = useAdminCreateUser({ onSettled: handleClose });
 
+  async function handleSubmit() {
+    for (const user of users) {
+      try {
+        await createUserAPI.mutateAsync(user);
+        console.log('User created successfully:', user.email);
+      } catch (error) {
+        console.error('Error creating user:', user.email, error);
+      }
+    }
+  }
+
   return (
-    <Form methods={methods} onSubmit={createUserAPI.mutate}>
-      <FormControl field={fields.name} type="text" autoFocus />
-      <FormControl field={fields.email} type="email" />
-      <FormControl field={fields.password} type="password" />
-      <FormControl field={fields.password_confirmation} type="password" />
 
+    <Stack className="mt-1" direction="horizontal" gap={1}>
+      <Button variant="neutral" className="ms-auto" onClick={handleClose}>
+        {t('close')}
+      </Button>
+      <Button variant="brand" onClick={() => handleSubmit()} disabled={createUserAPI.isLoading}>
+        {createUserAPI.isLoading && <Spinner className="me-2" />}
+        {t('admin.manage_users.create_account')}
+      </Button>
+    </Stack>
 
-      <Stack className="mt-1" direction="horizontal" gap={1}>
-        <Button variant="neutral" className="ms-auto" onClick={handleClose}>
-          {t('close')}
-        </Button>
-        <Button variant="brand" type="submit" disabled={createUserAPI.isLoading}>
-          {createUserAPI.isLoading && <Spinner className="me-2" />}
-          {t('admin.manage_users.create_account')}
-        </Button>
-      </Stack>
-    </Form>
   );
 }
 

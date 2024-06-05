@@ -66,7 +66,7 @@ class Room < ApplicationRecord
   def create_meeting_options
     configs = RoomsConfiguration.joins(:meeting_option).where(provider: user.provider).pluck(:name, :value).to_h
 
-    MeetingOption.all.find_each do |option|
+    MeetingOption.find_each do |option|
       value = if %w[true default_enabled].include? configs[option.name]
                 option.true_value
               else
@@ -103,10 +103,10 @@ class Room < ApplicationRecord
 
   # Create unique pin for voice brige max 10^5 - 10000 unique ids
   def set_voice_brige
-    if Rails.application.config.voice_bridge_phone_number != nil
-      id = SecureRandom.random_number((10.pow(5)) - 1)
-      raise if Room.exists?(voice_bridge: id) || id < 10000
-    
+    unless Rails.application.config.voice_bridge_phone_number.nil?
+      id = SecureRandom.random_number(10.pow(5) - 1)
+      raise if Room.exists?(voice_bridge: id) || id < 10_000
+
       self.voice_bridge = id
     end
   rescue StandardError

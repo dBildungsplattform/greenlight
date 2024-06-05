@@ -61,7 +61,10 @@ module Api
         # Users created by a user will have the creator language by default with a fallback to the server configured default_locale.
         create_user_params[:language] = current_user&.language || I18n.default_locale if create_user_params[:language].blank?
 
-        user = UserCreator.new(user_params: create_user_params.except(:invite_token), provider: current_provider, role: default_role).call
+        role_name = create_user_params[:role] || default_role.name
+        user_role = Role.find_by(name: role_name, provider: current_provider)
+
+        user = UserCreator.new(user_params: create_user_params.except(:invite_token, :role), provider: current_provider, role: user_role).call
 
         smtp_enabled = ENV['SMTP_SERVER'].present?
 
@@ -71,7 +74,7 @@ module Api
         user.pending! if !admin_create && registration_method == SiteSetting::REGISTRATION_METHODS[:approval]
 
         if user.save
-          if smtp_enabled
+          if smtp_enabled && !user.verified?
             token = user.generate_activation_token!
             UserMailer.with(user:,
                             activation_url: activate_account_url(token), base_url: request.base_url,
@@ -156,7 +159,7 @@ module Api
       private
 
       def create_user_params
-        @create_user_params ||= params.require(:user).permit(:name, :email, :password, :avatar, :language, :role_id, :invite_token)
+        @create_user_params ||= params.require(:user).permit(:name, :email, :password, :avatar, :language, :role_id, :invite_token, :role, :verified)
       end
 
       def update_user_params
@@ -173,6 +176,12 @@ module Api
         # Try to delete the invitation and return true if it succeeds
         Invitation.destroy_by(email: create_user_params[:email].downcase, provider: current_provider,
                               token: create_user_params[:invite_token]).present?
+      end
+
+      def get_role_by_name(role_name)
+        role = Role.find_by(name: role_name, provider: current_provider)
+        Rails.logger.info "Role found: #{role.inspect} (Class: #{role.class})" # Log the role object and its class
+        role
       end
     end
   end
