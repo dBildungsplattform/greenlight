@@ -300,7 +300,7 @@
         "default_role_description": "Standard-Rolle, die neuen Nutzer:innen zugeteilt wird",
         "registration_method": "Registrierungs-Methode",
         "registration_method_description": "Registrierungs-Methoden ändern",
-        "registration_methods" : {
+        "registration_methods": {
           "open": "Offene Registrierung",
           "invite": "Per Einladung teilnehmen",
           "approval": "Zulassen/Ablehnen"
@@ -313,6 +313,7 @@
       "optional": "Optional (Standard: Deaktiviert)",
       "enabled": "Aktiviert",
       "disabled": "Deaktiviert",
+      "room_deletion_date": "Raum-Löschdatum",
       "configurations": {
         "allow_room_to_be_recorded": "Raum kann aufgezeichnet werden",
         "allow_room_to_be_recorded_description": "Aufzeichnungen erlauben. Wenn aktiviert, muss die Moderation immer noch den \"Aufnahme\"-Knopf drücken, nachdem die Konferenz begonnen hat.",
@@ -528,8 +529,8 @@
     "room_join": {
       "fields": {
         "name": {
-            "label": "Name",
-            "placeholder": "Namen eingeben"
+          "label": "Name",
+          "placeholder": "Namen eingeben"
         },
         "access_code": {
           "label": "Zugangscode",

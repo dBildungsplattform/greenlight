@@ -33,6 +33,7 @@ import { useAuth } from '../../../../contexts/auth/AuthProvider';
 import UpdateRoomNameForm from './forms/UpdateRoomNameForm';
 import useRoom from '../../../../hooks/queries/rooms/useRoom';
 import UnshareRoom from './UnshareRoom';
+import SetRoomDeletionDateForm from './forms/SetRoomDeletionDateForm';
 
 export default function RoomSettings() {
   const { t } = useTranslation();
@@ -66,9 +67,10 @@ export default function RoomSettings() {
                 config={roomConfigs?.glModeratorAccessCode}
                 description={t('room.settings.generate_mods_access_code')}
               />
+              <SetRoomDeletionDateForm friendlyId={friendlyId} />
             </Col>
             <Col className="ps-4">
-              <Row> <h6 className="text-brand">{ t('room.settings.user_settings') }</h6> </Row>
+              <Row> <h6 className="text-brand">{t('room.settings.user_settings')}</h6> </Row>
               {(currentUser?.permissions?.CanRecord === 'true') && (
                 <RoomSettingsRow
                   settingName="record"
@@ -117,33 +119,33 @@ export default function RoomSettings() {
                 <Stack direction="horizontal" gap={2}>
                   {
                     room.shared
-                      && (
-                        <Modal
-                          modalButton={(
-                            <Button
-                              variant="delete"
-                              className="mt-1 mx-2 float-end"
-                            >{t('room.shared_access.delete_shared_access')}
-                            </Button>
-                          )}
-                          body={<UnshareRoom userId={currentUser.id} roomFriendlyId={friendlyId} />}
-                        />
-                      )
+                    && (
+                      <Modal
+                        modalButton={(
+                          <Button
+                            variant="delete"
+                            className="mt-1 mx-2 float-end"
+                          >{t('room.shared_access.delete_shared_access')}
+                          </Button>
+                        )}
+                        body={<UnshareRoom userId={currentUser.id} roomFriendlyId={friendlyId} />}
+                      />
+                    )
                   }
                   {
                     (!room.shared || currentUser?.permissions?.ManageRooms === 'true')
-                      && (
-                        <Modal
-                          modalButton={(
-                            <Button
-                              variant="delete"
-                              className="mt-1 mx-2 float-end"
-                            >{t('room.delete_room')}
-                            </Button>
-                          )}
-                          body={<DeleteRoomForm mutation={deleteMutationWrapper} />}
-                        />
-                      )
+                    && (
+                      <Modal
+                        modalButton={(
+                          <Button
+                            variant="delete"
+                            className="mt-1 mx-2 float-end"
+                          >{t('room.delete_room')}
+                          </Button>
+                        )}
+                        body={<DeleteRoomForm mutation={deleteMutationWrapper} />}
+                      />
+                    )
                   }
                 </Stack>
               </div>

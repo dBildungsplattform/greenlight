@@ -303,7 +303,7 @@
         "default_role_description": "The default role to be assigned to newly created users",
         "registration_method": "Registration Method",
         "registration_method_description": "Change the way that users register to the website",
-        "registration_methods" : {
+        "registration_methods": {
           "open": "Open Registration",
           "invite": "Join by Invitation",
           "approval": "Approve/Decline"
@@ -316,6 +316,7 @@
       "optional": "Optional (default: disabled)",
       "enabled": "Force Enabled",
       "disabled": "Disabled",
+      "room_deletion_date": "Room Deletion Date",
       "configurations": {
         "allow_room_to_be_recorded": "Allow Room to be recorded",
         "allow_room_to_be_recorded_description": "Allows room owners to specify whether they want the option to record a room or not. If enabled, the moderator must still click the 'Record' button once the meeting has started.",
@@ -533,8 +534,8 @@
     "room_join": {
       "fields": {
         "name": {
-            "label": "Name",
-            "placeholder": "Enter your name"
+          "label": "Name",
+          "placeholder": "Enter your name"
         },
         "access_code": {
           "label": "Access Code",
