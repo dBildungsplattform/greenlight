@@ -62,7 +62,7 @@ class Room < ApplicationRecord
                         .find_by(meeting_option: { name: })
   end
 
-  # Autocreate all meeting options using the default values
+  # Autocreate all meeting options using the default 
   def create_meeting_options
     configs = RoomsConfiguration.joins(:meeting_option).where(provider: user.provider).pluck(:name, :value).to_h
 
@@ -78,6 +78,16 @@ class Room < ApplicationRecord
 
   def public_recordings
     recordings.where(visibility: [Recording::VISIBILITIES[:public], Recording::VISIBILITIES[:public_protected]])
+  end
+
+  def notify_room_deletion
+    begin
+      user_email = user.email
+      room_name = name     
+      UserMailer.with(to: user_email, subject: "Your Room #{room_name} has been deleted").test_email.deliver_now
+    rescue => e
+      puts "Failed to send deletion email: #{e.message}"
+    end
   end
 
   private

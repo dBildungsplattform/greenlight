@@ -16,7 +16,8 @@ RUN apk add --no-cache \
     ruby-json \
     tzdata \
     bash \
-    shared-mime-info
+    shared-mime-info \
+    cronie
 
 # Builder stage for installing build dependencies
 FROM base AS builder
@@ -58,10 +59,17 @@ RUN apk add --no-cache \
     nodejs \
     yarn \
     yaml-dev \
-    zlib-dev
+    zlib-dev \
+    rsyslog
 
 COPY --from=builder $RAILS_ROOT $RAILS_ROOT
 RUN chmod +x ./bin/start
+
+# Add the script to be run every minute
+RUN mkdir -p /etc/periodic/1min
+COPY ./cronjobs/delete_expired_rooms.sh /etc/periodic/1min/delete_expired_rooms.sh
+RUN chmod +x /etc/periodic/1min/delete_expired_rooms.sh
+
 
 # Set environment variables
 ARG RAILS_ENV
@@ -72,4 +80,6 @@ ARG VERSION_CODE
 ENV VERSION_CODE=$VERSION_CODE
 
 EXPOSE 3000
-CMD ["bash", "-c", "./bin/start"]
+
+# Start rsyslog and cron daemon, then start the Rails application
+CMD ["sh", "-c", "./bin/start"]
