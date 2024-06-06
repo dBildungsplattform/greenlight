@@ -209,6 +209,7 @@
       "ban": "Ban",
       "unban": "Unban",
       "deleted": "Deleted",
+      "import_from_csv": "Import from CSV",
       "invited_tab": "Invited",
       "invite_user": "Invite User",
       "send_invitation": "Send Invitation",
@@ -303,7 +304,7 @@
         "default_role_description": "The default role to be assigned to newly created users",
         "registration_method": "Registration Method",
         "registration_method_description": "Change the way that users register to the website",
-        "registration_methods" : {
+        "registration_methods": {
           "open": "Open Registration",
           "invite": "Join by Invitation",
           "approval": "Approve/Decline"
@@ -533,8 +534,8 @@
     "room_join": {
       "fields": {
         "name": {
-            "label": "Name",
-            "placeholder": "Enter your name"
+          "label": "Name",
+          "placeholder": "Enter your name"
         },
         "access_code": {
           "label": "Access Code",

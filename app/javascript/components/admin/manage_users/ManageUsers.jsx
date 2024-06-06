@@ -69,16 +69,19 @@ export default function ManageUsers() {
                     <Stack direction="horizontal" className="mb-4">
                       <SearchBar searchInput={searchInput} setSearchInput={setSearchInput} />
                       <div className="ms-auto">
-                        <Modal
-                          modalButton={(
-                            <Button variant="brand-outline" className="me-3">
-                              <EnvelopeIcon className="hi-s me-1" />{t('admin.manage_users.invite_user')}
-                            </Button>
+                        {registrationMethod === 'invite'
+                          && (
+                            <Modal
+                              modalButton={(
+                                <Button variant="brand-outline" className="me-3">
+                                  <EnvelopeIcon className="hi-s me-1" />{t('admin.manage_users.invite_user')}
+                                </Button>
+                              )}
+                              title={t('admin.manage_users.invite_user')}
+                              body={<InviteUserForm />}
+                              size="md"
+                            />
                           )}
-                          title={t('admin.manage_users.invite_user')}
-                          body={<InviteUserForm />}
-                          size="md"
-                        />
                         {
                           (!envAPI.isLoading && !envAPI.data?.EXTERNAL_AUTH)
                           && (
@@ -92,13 +95,13 @@ export default function ManageUsers() {
                           )
                         }
                         {(!envAPI.isLoading && !envAPI.data?.EXTERNAL_AUTH) && (
-                          <Modal
+                          <Modal size="xl"
                             modalButton={(
                               <Button variant="brand" className="mx-2">
-                                <UserPlusIcon className="hi-s me-1" /> CSV Import
+                                <UserPlusIcon className="hi-s me-1" /> {t('admin.manage_users.import_from_csv')}
                               </Button>
                             )}
-                            title={t('admin.manage_users.create_new_user')}
+                            title={t('admin.manage_users.import_from_csv')}
                             body={<ImportFromCSV />}
                           />
                         )}

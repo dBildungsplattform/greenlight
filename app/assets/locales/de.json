@@ -206,6 +206,7 @@
       "ban": "Sperren",
       "unban": "Entsperren",
       "deleted": "Gelöscht",
+      "import_from_csv": "Von CSV importieren",
       "invited_tab": "Eingeladen",
       "invite_user": "Nutzer:in einladen",
       "send_invitation": "Einladung senden",
@@ -300,7 +301,7 @@
         "default_role_description": "Standard-Rolle, die neuen Nutzer:innen zugeteilt wird",
         "registration_method": "Registrierungs-Methode",
         "registration_method_description": "Registrierungs-Methoden ändern",
-        "registration_methods" : {
+        "registration_methods": {
           "open": "Offene Registrierung",
           "invite": "Per Einladung teilnehmen",
           "approval": "Zulassen/Ablehnen"
@@ -528,8 +529,8 @@
     "room_join": {
       "fields": {
         "name": {
-            "label": "Name",
-            "placeholder": "Namen eingeben"
+          "label": "Name",
+          "placeholder": "Namen eingeben"
         },
         "access_code": {
           "label": "Zugangscode",

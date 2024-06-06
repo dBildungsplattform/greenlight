@@ -58,9 +58,11 @@ module Api
           return render_error errors: Rails.configuration.custom_error_msgs[:hcaptcha_invalid]
         end
 
+        if create_user_params[:language].blank?
         # Users created by a user will have the creator language by default with a fallback to the server configured default_locale.
-        create_user_params[:language] = current_user&.language || I18n.default_locale if create_user_params[:language].blank?
-
+          create_user_params[:language] = current_user&.language || I18n.default_locale if create_user_params[:language].blank?
+        end
+          
         role_name = create_user_params[:role] || default_role.name
         user_role = Role.find_by(name: role_name, provider: current_provider)
 
@@ -79,6 +81,12 @@ module Api
             UserMailer.with(user:,
                             activation_url: activate_account_url(token), base_url: request.base_url,
                             provider: current_provider).activate_account_email.deliver_later
+
+            token = user.generate_reset_token!
+
+            UserMailer.with(user:,
+                            reset_url: reset_password_url(token), base_url: request.base_url,
+                            provider: current_provider).reset_password_email.deliver_later
 
             UserMailer.with(user:, admin_panel_url:, base_url: request.base_url, provider: current_provider).new_user_signup_email.deliver_later
           end

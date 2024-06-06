@@ -1,4 +1,3 @@
-
 // BigBlueButton open source conferencing system - http://www.bigbluebutton.org/.
 //
 // Copyright (c) 2022 BigBlueButton Inc. and by respective authors (see below).
@@ -15,41 +14,48 @@
 // You should have received a copy of the GNU Lesser General Public License along
 // with Greenlight; if not, see <http://www.gnu.org/licenses/>.
 
-import React from 'react';
-import { Button, Stack } from 'react-bootstrap';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import Spinner from '../../../shared_components/utilities/Spinner';
-import useAdminCreateUser from '../../../../hooks/mutations/admin/manage_users/useAdminCreateUser';
+import React from "react";
+import { Button, Stack } from "react-bootstrap";
+import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
+import Spinner from "../../../shared_components/utilities/Spinner";
+import useAdminCreateUser from "../../../../hooks/mutations/admin/manage_users/useAdminCreateUser";
 
-
-export default function UserSignupForm({ handleClose, users }) {
+export default function UserSignupForm({ handleClose, users, handleStatus }) {
   const { t } = useTranslation();
-  const createUserAPI = useAdminCreateUser({ onSettled: handleClose });
+  const createUserAPI = useAdminCreateUser({ onSettled: () => { } });
 
   async function handleSubmit() {
+    let index = 0;
     for (const user of users) {
       try {
         await createUserAPI.mutateAsync(user);
-        console.log('User created successfully:', user.email);
+        handleStatus(index, t("toast.success.user.user_created"));
       } catch (error) {
-        console.error('Error creating user:', user.email, error);
+        if (error.response.data.errors === "EmailAlreadyExists") {
+          handleStatus(index, t("toast.error.users.email_exists"));
+        } else {
+          handleStatus(index, t("toast.error.problem_completing_action"));
+        }
       }
+      index++;
     }
   }
 
   return (
-
     <Stack className="mt-1" direction="horizontal" gap={1}>
       <Button variant="neutral" className="ms-auto" onClick={handleClose}>
-        {t('close')}
+        {t("close")}
       </Button>
-      <Button variant="brand" onClick={() => handleSubmit()} disabled={createUserAPI.isLoading}>
+      <Button
+        variant="brand"
+        onClick={() => handleSubmit()}
+        disabled={createUserAPI.isLoading}
+      >
         {createUserAPI.isLoading && <Spinner className="me-2" />}
-        {t('admin.manage_users.create_account')}
+        {t("admin.manage_users.create_account")}
       </Button>
     </Stack>
-
   );
 }
 
