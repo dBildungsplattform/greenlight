@@ -84,7 +84,7 @@ class Room < ApplicationRecord
     begin
       user_email = user.email
       room_name = name     
-      UserMailer.with(to: user_email, subject: "Your Room #{room_name} has been deleted").test_email.deliver_now
+      UserMailer.with(to: user_email, subject: "Your Room #{room_name} has been deleted", room_name: self.name).room_deletion_info.deliver_now
     rescue => e
       puts "Failed to send deletion email: #{e.message}"
     end

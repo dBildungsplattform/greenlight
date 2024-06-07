@@ -24,6 +24,11 @@ class UserMailer < ApplicationMailer
     mail(to: params[:to], subject: params[:subject])
   end
 
+  def room_deletion_info
+    @room_name = params[:room_name]
+    mail(to: params[:to], subject: params[:subject])
+  end
+
   def reset_password_email
     @user = params[:user]
     @reset_url = params[:reset_url]

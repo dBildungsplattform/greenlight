@@ -52,3 +52,4 @@
 
 # Ignore environment configuration.
 .env*
+docker-compose.yml
