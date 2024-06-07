@@ -34,6 +34,8 @@ import PendingUsers from './PendingUsers';
 import BannedUsers from './BannedUsers';
 import { useAuth } from '../../../contexts/auth/AuthProvider';
 import useEnv from '../../../hooks/queries/env/useEnv';
+import ImportFromCSV from './forms/ImportFromCSV';
+
 
 export default function ManageUsers() {
   const { t } = useTranslation();
@@ -92,7 +94,17 @@ export default function ManageUsers() {
                             />
                           )
                         }
-
+                        {(!envAPI.isLoading && !envAPI.data?.EXTERNAL_AUTH) && (
+                          <Modal size="xl"
+                            modalButton={(
+                              <Button variant="brand" className="mx-2">
+                                <UserPlusIcon className="hi-s me-1" /> {t('admin.manage_users.import_from_csv')}
+                              </Button>
+                            )}
+                            title={t('admin.manage_users.import_from_csv')}
+                            body={<ImportFromCSV />}
+                          />
+                        )}
                       </div>
                     </Stack>
                     <Tabs defaultActiveKey="active" unmountOnExit>

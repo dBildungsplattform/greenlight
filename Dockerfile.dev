@@ -22,6 +22,11 @@ RUN apk add --no-cache \
 # Builder stage for installing build dependencies
 FROM base AS builder
 
+
+
+# Builder stage for installing build dependencies
+FROM base AS builder
+
 RUN apk add --no-cache \
     build-base \
     curl-dev \
@@ -36,7 +41,11 @@ RUN apk add --no-cache \
     yaml-dev \
     zlib-dev
 
+
+
 COPY Gemfile* ./
+
+RUN bundle lock --add-platform x86_64-linux-musl
 RUN bundle config build.nokogiri --use-system-libraries \
     && bundle config set --local deployment 'true' --without 'development test' \
     && bundle install -j4 \
@@ -80,6 +89,4 @@ ARG VERSION_CODE
 ENV VERSION_CODE=$VERSION_CODE
 
 EXPOSE 3000
-
-# Start rsyslog and cron daemon, then start the Rails application
-CMD ["sh", "-c", "./bin/start"]
+CMD ["bash", "-c", "./bin/start"]

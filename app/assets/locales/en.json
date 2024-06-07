@@ -209,6 +209,7 @@
       "ban": "Ban",
       "unban": "Unban",
       "deleted": "Deleted",
+      "import_from_csv": "Import from CSV",
       "invited_tab": "Invited",
       "invite_user": "Invite User",
       "send_invitation": "Send Invitation",

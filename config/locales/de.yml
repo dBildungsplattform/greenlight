@@ -67,11 +67,11 @@ de:
       sign_up: Registrieren
     new_user_signup:
       new_user: Neue BigBlueButton Benutzeranmeldung
-      new_user_description: Ein neuer Benutzer hat sich angemeldet, um BigBlueButton zu nutzen.
+      new_user_description: Ein neuer Benutzer hat sich für die Nutzung von BigBlueButton angemeldet.
       name: "Name: %{name}"
       email: "E-Mail: %{email}"
-      admin_panel: "Administrator-Panel"
-      take_action: "Um den neuen Benutzer zu sehen oder die notwendigen Maßnahmen zu ergreifen, besuchen Sie das Administrator-Panel"
+      admin_panel: "Administrationsbereich"
+      take_action: "Um den neuen Benutzer zu sehen oder die notwendigen Maßnahmen zu ergreifen, besuchen Sie den Administrationsbereich"
     reset:
       password_reset: Passwort zurücksetzen
       password_reset_requested: "Eine Passwortrücksetzung wurde für %{email} beantragt."

@@ -36,13 +36,14 @@ export default function UserSignupForm({ handleClose }) {
       <FormControl field={fields.password} type="password" />
       <FormControl field={fields.password_confirmation} type="password" />
 
+
       <Stack className="mt-1" direction="horizontal" gap={1}>
         <Button variant="neutral" className="ms-auto" onClick={handleClose}>
           {t('close')}
         </Button>
         <Button variant="brand" type="submit" disabled={createUserAPI.isLoading}>
-          { createUserAPI.isLoading && <Spinner className="me-2" /> }
-          { t('admin.manage_users.create_account') }
+          {createUserAPI.isLoading && <Spinner className="me-2" />}
+          {t('admin.manage_users.create_account')}
         </Button>
       </Stack>
     </Form>

@@ -62,6 +62,14 @@ export default function useUserSignupForm({ defaultValues: _defaultValues, ..._c
         },
       },
     },
+    role: {
+      label: "Role",
+      placeHolder: "Role",
+      controlId: 'createUserFormRole',
+      hookForm: {
+        id: 'role',
+      },
+    },
   }), [i18n.resolvedLanguage]);
 
   const validationSchema = useSignUpFormValidation();
