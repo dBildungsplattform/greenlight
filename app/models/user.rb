@@ -188,6 +188,10 @@ class User < ApplicationRecord
     user
   end
 
+  def notify_admins_blocked_users_inactivity
+    UserMailer.with(user: self).inform_admins_blocked_users_inactivity_email.deliver_now
+  end
+
   # Checkes the expiration of a token.
   def self.activation_token_expired?(sent_at)
     Time.current > (sent_at.in(ACTIVATION_TOKEN_VALIDITY_PERIOD))

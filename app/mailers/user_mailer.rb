@@ -61,6 +61,19 @@ class UserMailer < ApplicationMailer
     mail(to: emails, subject: t('email.new_user_signup.new_user'))
   end
 
+  def inform_admins_blocked_users_inactivity_email
+    @user = params[:user]
+    Rails.logger.debug { "[UserMailer] Blocked user: #{@user.email}" }
+    emails = get_all_admin_emails
+    Rails.logger.debug { "[UserMailer] Admin emaild #{emails}" }
+    email = mail(to: emails, subject: t('email.blocked.account_blocked'))
+    if email.present?
+      Rails.logger.debug '[UserMailer] Email has been queued for delivery.'
+    else
+      Rails.logger.debug '[UserMailer] Failed to queue email for delivery.'
+    end
+  end
+
   private
 
   def preset
@@ -81,5 +94,18 @@ class UserMailer < ApplicationMailer
                    .pluck(:id)
 
     User.where(role_id: role_ids).pluck(:email)
+  end
+
+  def get_all_admin_emails
+    # Find the role that corresponds to 'Administrator'
+    admin_role = Role.find_by(name: 'Administrator')
+  
+    # Get all users with the 'Administrator' role
+    admins = User.where(role: admin_role)
+  
+    # Return their email addresses
+    admin_emails = admins.pluck(:email)
+    
+    admin_emails
   end
 end

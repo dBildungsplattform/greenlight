@@ -62,11 +62,11 @@ class Room < ApplicationRecord
                         .find_by(meeting_option: { name: })
   end
 
-  # Autocreate all meeting options using the default 
+  # Autocreate all meeting options using the default
   def create_meeting_options
     configs = RoomsConfiguration.joins(:meeting_option).where(provider: user.provider).pluck(:name, :value).to_h
 
-    MeetingOption.all.find_each do |option|
+    MeetingOption.find_each do |option|
       value = if %w[true default_enabled].include? configs[option.name]
                 option.true_value
               else
@@ -81,13 +81,11 @@ class Room < ApplicationRecord
   end
 
   def notify_room_deletion
-    begin
-      user_email = user.email
-      room_name = name     
-      UserMailer.with(to: user_email, subject: "Your Room #{room_name} has been deleted", room_name: self.name).room_deletion_info.deliver_now
-    rescue => e
-      puts "Failed to send deletion email: #{e.message}"
-    end
+    user_email = user.email
+    room_name = name
+    UserMailer.with(to: user_email, subject: "Your Room #{room_name} has been deleted", room_name: name).room_deletion_info.deliver_now
+  rescue StandardError => e
+    Rails.logger.debug { "Failed to send deletion email: #{e.message}" }
   end
 
   private
@@ -113,10 +111,10 @@ class Room < ApplicationRecord
 
   # Create unique pin for voice brige max 10^5 - 10000 unique ids
   def set_voice_brige
-    if Rails.application.config.voice_bridge_phone_number != nil
-      id = SecureRandom.random_number((10.pow(5)) - 1)
-      raise if Room.exists?(voice_bridge: id) || id < 10000
-    
+    unless Rails.application.config.voice_bridge_phone_number.nil?
+      id = SecureRandom.random_number(10.pow(5) - 1)
+      raise if Room.exists?(voice_bridge: id) || id < 10_000
+
       self.voice_bridge = id
     end
   rescue StandardError
