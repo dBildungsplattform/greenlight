@@ -1,5 +1,5 @@
 #!/bin/bash -e
 
 docker-compose down
-docker build -f Dockerfile.dev -t my-greenlight-dev .
+docker build -f Dockerfile -t greenlight .
 docker-compose up -d
