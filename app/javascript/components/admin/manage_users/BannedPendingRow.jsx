@@ -46,7 +46,7 @@ export default function BannedPendingRow({ user, pendingTable }) {
           </div>
           <Stack>
             <span className="text-dark fw-bold"> {user.name} </span>
-            <span className="small"> { t('admin.manage_users.user_created_at', { localizedTime }) }</span>
+            <span className="small"> {t('admin.manage_users.user_created_at', { localizedTime })}</span>
           </Stack>
         </Stack>
       </td>
@@ -68,7 +68,7 @@ export default function BannedPendingRow({ user, pendingTable }) {
                 </Dropdown.Item>
               </>
             ) : (
-              <Dropdown.Item onClick={() => updateUserStatus.mutate({ id: user.id, status: 'active' })}>
+              <Dropdown.Item onClick={() => updateUserStatus.mutate({ id: user.id, status: 'active', last_login: new Date().toDateString() })}>
                 <CheckIcon className="hi-s me-2" />
                 {t('admin.manage_users.unban')}
               </Dropdown.Item>

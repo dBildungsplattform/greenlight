@@ -23,8 +23,16 @@ export default function useUpdateUserStatus() {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
 
+  const createPayload = (data) => {
+    const user = { status: data.status }
+    if (data.last_login) {
+      user.last_login = data.last_login
+    }
+    return { user };
+  }
+
   return useMutation(
-    (data) => axios.patch(`/admin/users/${data.id}.json`, { user: { status: data.status } }),
+    (data) => axios.patch(`/admin/users/${data.id}.json`, createPayload(data)),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(['getPendingUsers']);
