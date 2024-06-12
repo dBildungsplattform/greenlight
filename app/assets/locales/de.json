@@ -356,7 +356,9 @@
         "manage_site_settings": "Nutzer:innen mit dieser Rolle erlauben, die Webseiteneinstellungen zu verwalten",
         "manage_roles": "Nutzer:innen mit dieser Rolle erlauben, andere Rollen zu bearbeiten",
         "shared_list": "Nutzer:innen mit dieser Rolle in die Auswahlliste für die gemeinsame Nutzung von Räumen aufnehmen",
-        "room_limit": "Raumlimit"
+        "room_limit": "Raumlimit",
+        "email_on_signup": "E-Mail bei Registrierung eines Nutzers",
+        "email_on_automated_banned": "E-Mail bei automatischer Sperrung eines Nutzers"
       }
     }
   },

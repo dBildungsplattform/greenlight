@@ -54,7 +54,7 @@ class UserMailer < ApplicationMailer
   def new_user_signup_email
     @user = params[:user]
     @admin_panel_url = params[:admin_panel_url]
-    emails = admin_emails
+    emails = admin_emails('EmailOnSignup') 
 
     return if emails.blank? # Dont send anything if no-one has EmailOnSignup enabled
 
@@ -63,15 +63,11 @@ class UserMailer < ApplicationMailer
 
   def inform_admins_blocked_users_inactivity_email
     @user = params[:user]
-    Rails.logger.debug { "[UserMailer] Blocked user: #{@user.email}" }
-    emails = get_all_admin_emails
-    Rails.logger.debug { "[UserMailer] Admin emaild #{emails}" }
+    emails = admin_emails('EmailOnAutomatedBanned') 
+
+    return if emails.blank? # Dont send anything if no-one has EmailOnAutomatedBanned enabled
+
     email = mail(to: emails, subject: t('email.blocked.account_blocked'))
-    if email.present?
-      Rails.logger.debug '[UserMailer] Email has been queued for delivery.'
-    else
-      Rails.logger.debug '[UserMailer] Failed to queue email for delivery.'
-    end
   end
 
   private
@@ -87,25 +83,12 @@ class UserMailer < ApplicationMailer
     @brand_color = branding_hash['PrimaryColor']
   end
 
-  def admin_emails
-    # Find all the roles that have EmailOnSignup enabled
+  def admin_emails(permission_name)
+    # Find all the roles that have permission_name enabled
     role_ids = Role.joins(role_permissions: :permission).with_provider(@provider).where(role_permissions: { value: 'true' },
-                                                                                        permission: { name: 'EmailOnSignup' })
+                                                                                        permission: { name: permission_name })
                    .pluck(:id)
 
     User.where(role_id: role_ids).pluck(:email)
-  end
-
-  def get_all_admin_emails
-    # Find the role that corresponds to 'Administrator'
-    admin_role = Role.find_by(name: 'Administrator')
-  
-    # Get all users with the 'Administrator' role
-    admins = User.where(role: admin_role)
-  
-    # Return their email addresses
-    admin_emails = admins.pluck(:email)
-    
-    admin_emails
   end
 end

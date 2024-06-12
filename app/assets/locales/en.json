@@ -360,7 +360,8 @@
         "manage_roles": "Allow users with this role to edit other roles",
         "shared_list": "Include users with this role in the dropdown for sharing rooms",
         "room_limit": "Room Limit",
-        "email_on_signup": "Receive an email when a new user signs up"
+        "email_on_signup": "Receive an email when a new user signs up",
+        "email_on_automated_banned": "Receive an email when a user is automatically banned due to inactivity"
       }
     }
   },
