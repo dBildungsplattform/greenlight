@@ -287,7 +287,9 @@
         "allow_users_to_share_rooms": "Räume können geteilt werden",
         "allow_users_to_share_rooms_description": "Wenn dies deaktiviert ist, dann wird der Knopf zum Teilen eines Raums von den Raumeinstellungen entfernt.",
         "allow_users_to_preupload_presentation": "Präsentationen können hochgeladen werden",
-        "allow_users_to_preupload_presentation_description": "Nutzer:innen können eine Präsentation im Voraus hochladen, die dann als Standard für diesen Raum genutzt wird."
+        "allow_users_to_preupload_presentation_description": "Nutzer:innen können eine Präsentation im Voraus hochladen, die dann als Standard für diesen Raum genutzt wird.",
+        "activate_automated_deletion_of_expired_rooms": "Automatisches Löschen von abgelaufenen Räumen",
+        "activate_automated_deletion_of_expired_rooms_description": "Wenn das aktiviert ist, werden Räume automatisch gelöscht, wenn das Löschdatum erreicht ist."
       },
       "registration": {
         "registration": "Registrierung",
