@@ -18,10 +18,11 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import useSiteSettings from '../../../../hooks/queries/admin/site_settings/useSiteSettings';
 import SettingsRow from '../SettingsRow';
+import SettingsRowNumberInput from '../SettingsRowNumberInput';
 
 export default function Settings() {
   const { t } = useTranslation();
-  const { data: siteSettings, isLoading } = useSiteSettings(['ShareRooms', 'PreuploadPresentation', 'AutomatedDeletionOfExpiredRooms']);
+  const { data: siteSettings, isLoading } = useSiteSettings(['ShareRooms', 'PreuploadPresentation', 'AutomatedDeletionOfExpiredRooms', 'AutomatedUserBanTime']);
   if (isLoading) return null;
 
   return (
@@ -55,6 +56,16 @@ export default function Settings() {
           </p>
         )}
         value={siteSettings?.AutomatedDeletionOfExpiredRooms}
+      />
+      <SettingsRowNumberInput
+        name="AutomatedUserBanTime"
+        title={t('admin.site_settings.settings.set_automated_ban_time_from_inactive_users')}
+        description={(
+          <p className="text-muted">
+            {t('admin.site_settings.settings.set_automated_ban_time_from_inactive_users_description')}
+          </p>
+        )}
+        value={siteSettings?.AutomatedUserBanTime}
       />
     </>
   );

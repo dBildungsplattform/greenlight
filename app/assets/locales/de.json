@@ -289,7 +289,9 @@
         "allow_users_to_preupload_presentation": "Präsentationen können hochgeladen werden",
         "allow_users_to_preupload_presentation_description": "Nutzer:innen können eine Präsentation im Voraus hochladen, die dann als Standard für diesen Raum genutzt wird.",
         "activate_automated_deletion_of_expired_rooms": "Automatisches Löschen von abgelaufenen Räumen",
-        "activate_automated_deletion_of_expired_rooms_description": "Wenn das aktiviert ist, werden Räume automatisch gelöscht, wenn das Löschdatum erreicht ist."
+        "activate_automated_deletion_of_expired_rooms_description": "Wenn das aktiviert ist, werden Räume automatisch gelöscht, wenn das Löschdatum erreicht ist.",
+        "set_automated_ban_time_from_inactive_users": "Automatische Sperrung von inaktiven Nutzer:innen",
+        "set_automated_ban_time_from_inactive_users_description": "Nutzer:innen werden automatisch gesperrt, wenn sie sich für die angegebene Anzahl an Tagen nicht einloggen. 0 deaktiviert diese Funktion."
       },
       "registration": {
         "registration": "Registrierung",
