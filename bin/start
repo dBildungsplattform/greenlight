@@ -3,7 +3,6 @@
 source bin/config.env
 
 echo "Greenlight-v3 starting on port: $PORT"
-echo ""
 
 echo "Postgres host: $PGHOST"
 echo "Postgres port: $PGPORT"

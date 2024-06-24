@@ -4,6 +4,8 @@ volumes:
   postgres-data:
   redis-data:
 
+networks:
+  my_network:
 
 services:
   db:
@@ -19,6 +21,8 @@ services:
       POSTGRES_PASSWORD: postgres
       PGDATA: /var/lib/postgresql/data
       POSTGRES_HOST: db
+    networks:
+      - my_network
 
   redis:
     image: redis:7.2.4-alpine
@@ -26,6 +30,10 @@ services:
     restart: unless-stopped
     volumes:
       - redis-data:/data
+    ports:
+      - 6379:6379
+    networks:
+      - my_network
 
   greenlight:
     image: greenlight
@@ -44,4 +52,5 @@ services:
     volumes:
       - ./app/javascript:/usr/src/app/app/javascript
       - ./log/cron.log:/var/log/cron.log
-
+    networks:
+      - my_network
