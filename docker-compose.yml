@@ -28,7 +28,7 @@ services:
       - redis-data:/data
 
   greenlight:
-    image: my-greenlight-dev
+    image: greenlight
     container_name: greenlight
     restart: unless-stopped
     ports:

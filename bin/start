@@ -22,18 +22,20 @@ if [ "$RAILS_ENV" = "production" ]; then
   done
 fi
 
-./bin/rails assets:precompile
-./bin/rails db:create
-./bin/rails db:migrate:with_data
+cd ./bin # TODO: How it worked without changing directory?
+
+rails assets:precompile
+rails db:create
+rails db:migrate:with_data
 
 # Write environment variables to crontab
 env | grep -v 'no_proxy' | while read -r line; do
   echo "$line"
 done >/etc/crontabs/root
 
-echo "* * * * * /usr/src/app/cronjobs/delete_expired_rooms.sh >> /var/log/cron.log 2>&1" >>/etc/crontabs/root
+echo "* * * * * /usr/src/app/cronjobs/daily_rake_tasks.sh >> /var/log/cron.log 2>&1" >>/etc/crontabs/root # TODO: Change to daily for production "0 0 * * *"
 
 # Start cron daemon as a background process
 crond
 
-exec ./bin/rails s -b 0.0.0.0 -p $PORT
+exec rails s -b 0.0.0.0 -p $PORT

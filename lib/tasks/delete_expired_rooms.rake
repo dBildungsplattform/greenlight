@@ -4,8 +4,10 @@ namespace :rooms do
   desc 'Delete rooms where deletion_date has passed'
   task delete_expired: :environment do
     expired_rooms = Room.where(deletion_date: ...Time.current)
+    AutomatedDeletionOfExpiredRoomsId = Setting.find_by(name: 'AutomatedDeletionOfExpiredRooms')&.id
+    is_automated_deletion_enabled = SiteSetting.find_by(setting_id: AutomatedDeletionOfExpiredRoomsId)&.value == 'true'
 
-    if expired_rooms.any?
+    if expired_rooms.any? && is_automated_deletion_enabled
       size = expired_rooms.size
       expired_rooms.each do |room|
         room.notify_room_deletion
@@ -16,7 +18,7 @@ namespace :rooms do
       end
       puts "Deleted #{size} expired rooms."
     else
-      puts 'No expired rooms to delete.'
+      puts 'No expired rooms to delete, or automated deletion is disabled.'
     end
   end
 end

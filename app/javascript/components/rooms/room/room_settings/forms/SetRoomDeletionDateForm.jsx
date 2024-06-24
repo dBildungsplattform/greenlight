@@ -32,6 +32,7 @@ export default function SetRoomDeletionDateForm({ friendlyId }) {
   const {
     register,
     handleSubmit,
+    reset,
   } = useForm();
   const { data: room } = useRoom(friendlyId);
   const updateRoom = useUpdateRoom({ friendlyId });
@@ -44,6 +45,11 @@ export default function SetRoomDeletionDateForm({ friendlyId }) {
     return d.toISOString().split('T')[0];
   };
 
+  const handleRemove = () => {
+    updateRoom.mutate({ deletion_date: "" });
+    reset({ 'room.deletion_date': '' });
+  };
+
   return (
     <Row>
       <h6 className="text-brand"> {t('admin.room_configuration.room_deletion_date')}</h6>
@@ -51,6 +57,7 @@ export default function SetRoomDeletionDateForm({ friendlyId }) {
         <Stack direction="horizontal" className='w-400'>
           <Form.Control type="date"  {...(room.deletion_date && { defaultValue: formattedDate(room.deletion_date) })}  {...register('room.deletion_date')} />
           <Button type="submit" variant="brand" className="ms-3">  {room.deletion_date ? t('update') : t('save')} </Button>
+          <Button variant="brand" disabled={!room.deletion_date} className="ms-3" onClick={handleRemove}>  X </Button>
         </Stack>
       </Form>
 

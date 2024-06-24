@@ -291,7 +291,11 @@
         "allow_users_to_share_rooms": "Allow Users to Share Rooms",
         "allow_users_to_share_rooms_description": "Setting to disabled will remove the button from the room options dropdown, preventing users from sharing rooms",
         "allow_users_to_preupload_presentation": "Allow Users to Preupload Presentations",
-        "allow_users_to_preupload_presentation_description": "Users can preupload a presentation to be used as the default presentation for that specific room"
+        "allow_users_to_preupload_presentation_description": "Users can preupload a presentation to be used as the default presentation for that specific room",
+        "activate_automated_deletion_of_expired_rooms": "Automated Deletion of Expired Rooms",
+        "activate_automated_deletion_of_expired_rooms_description": "Automatically delete rooms that have expired based on the room deletion date",
+        "set_automated_ban_time_from_inactive_users": "Automated Ban Time from Inactive Users",
+        "set_automated_ban_time_from_inactive_users_description": "Automatically ban users that have been inactive for a certain amount of time in days. Set to 0 to disable"
       },
       "registration": {
         "registration": "Registration",
@@ -361,7 +365,8 @@
         "manage_roles": "Allow users with this role to edit other roles",
         "shared_list": "Include users with this role in the dropdown for sharing rooms",
         "room_limit": "Room Limit",
-        "email_on_signup": "Receive an email when a new user signs up"
+        "email_on_signup": "Receive an email when a new user signs up",
+        "email_on_automated_banned": "Receive an email when a user is automatically banned due to inactivity"
       }
     }
   },

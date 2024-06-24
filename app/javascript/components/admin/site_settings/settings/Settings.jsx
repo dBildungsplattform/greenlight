@@ -18,11 +18,11 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import useSiteSettings from '../../../../hooks/queries/admin/site_settings/useSiteSettings';
 import SettingsRow from '../SettingsRow';
+import SettingsRowNumberInput from '../SettingsRowNumberInput';
 
 export default function Settings() {
   const { t } = useTranslation();
-  const { data: siteSettings, isLoading } = useSiteSettings(['ShareRooms', 'PreuploadPresentation']);
-
+  const { data: siteSettings, isLoading } = useSiteSettings(['ShareRooms', 'PreuploadPresentation', 'AutomatedDeletionOfExpiredRooms', 'AutomatedUserBanTime']);
   if (isLoading) return null;
 
   return (
@@ -32,9 +32,9 @@ export default function Settings() {
         title={t('admin.site_settings.settings.allow_users_to_share_rooms')}
         description={(
           <p className="text-muted">
-            { t('admin.site_settings.settings.allow_users_to_share_rooms_description') }
+            {t('admin.site_settings.settings.allow_users_to_share_rooms_description')}
           </p>
-      )}
+        )}
         value={siteSettings?.ShareRooms}
       />
       <SettingsRow
@@ -44,8 +44,28 @@ export default function Settings() {
           <p className="text-muted">
             {t('admin.site_settings.settings.allow_users_to_preupload_presentation_description')}
           </p>
-      )}
+        )}
         value={siteSettings?.PreuploadPresentation}
+      />
+      <SettingsRow
+        name="AutomatedDeletionOfExpiredRooms"
+        title={t('admin.site_settings.settings.activate_automated_deletion_of_expired_rooms')}
+        description={(
+          <p className="text-muted">
+            {t('admin.site_settings.settings.activate_automated_deletion_of_expired_rooms_description')}
+          </p>
+        )}
+        value={siteSettings?.AutomatedDeletionOfExpiredRooms}
+      />
+      <SettingsRowNumberInput
+        name="AutomatedUserBanTime"
+        title={t('admin.site_settings.settings.set_automated_ban_time_from_inactive_users')}
+        description={(
+          <p className="text-muted">
+            {t('admin.site_settings.settings.set_automated_ban_time_from_inactive_users_description')}
+          </p>
+        )}
+        value={siteSettings?.AutomatedUserBanTime}
       />
     </>
   );

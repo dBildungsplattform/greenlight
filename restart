@@ -1,5 +1,9 @@
 #!/bin/bash -e
 
 docker-compose down
+<<<<<<< HEAD
 docker build -f Dockerfile.dev -t my-greenlight-dev .
+=======
+docker build -f Dockerfile -t greenlight .
+>>>>>>> feature/automatic-block-unactive-users
 docker-compose up -d

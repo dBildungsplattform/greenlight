@@ -56,7 +56,7 @@ export default function EditRoleForm({ role }) {
     return (
       <div>
         <Modal
-          modalButton={<Button variant="delete" className="float-end my-4"> { t('admin.roles.delete_role') } </Button>}
+          modalButton={<Button variant="delete" className="float-end my-4"> {t('admin.roles.delete_role')} </Button>}
           body={<DeleteRoleForm role={role} />}
         />
       </div>
@@ -68,7 +68,7 @@ export default function EditRoleForm({ role }) {
       {
         isLoadingRoomConfigs || isLoading
           ? (
-          // eslint-disable-next-line react/no-array-index-key
+            // eslint-disable-next-line react/no-array-index-key
             [...Array(9)].map((val, idx) => <RolePermissionRowPlaceHolder key={idx} />)
           )
           : (
@@ -83,12 +83,12 @@ export default function EditRoleForm({ role }) {
                 defaultValue={rolePermissions?.CreateRoom === 'true'}
               />
               {['optional', 'default_enabled'].includes(roomConfigs?.record) && (
-              <RolePermissionRow
-                permissionName="CanRecord"
-                description={t('admin.roles.edit.record')}
-                roleId={role?.id}
-                defaultValue={rolePermissions?.CanRecord === 'true'}
-              />
+                <RolePermissionRow
+                  permissionName="CanRecord"
+                  description={t('admin.roles.edit.record')}
+                  roleId={role?.id}
+                  defaultValue={rolePermissions?.CanRecord === 'true'}
+                />
               )}
               <RolePermissionRow
                 permissionName="ManageUsers"
@@ -116,12 +116,12 @@ export default function EditRoleForm({ role }) {
               />
               {/* Don't show ManageRoles if current_user is editing their own role */}
               {(currentUser.role.id !== role?.id) && (
-              <RolePermissionRow
-                permissionName="ManageRoles"
-                description={t('admin.roles.edit.manage_roles')}
-                roleId={role?.id}
-                defaultValue={rolePermissions?.ManageRoles === 'true'}
-              />
+                <RolePermissionRow
+                  permissionName="ManageRoles"
+                  description={t('admin.roles.edit.manage_roles')}
+                  roleId={role?.id}
+                  defaultValue={rolePermissions?.ManageRoles === 'true'}
+                />
               )}
               <RolePermissionRow
                 permissionName="SharedList"
@@ -135,6 +135,13 @@ export default function EditRoleForm({ role }) {
                 description={t('admin.roles.edit.email_on_signup')}
                 roleId={role?.id}
                 defaultValue={rolePermissions?.EmailOnSignup === 'true'}
+              />
+
+              <RolePermissionRow
+                permissionName="EmailOnAutomatedBanned"
+                description={t('admin.roles.edit.email_on_automated_banned')}
+                roleId={role?.id}
+                defaultValue={rolePermissions?.EmailOnAutomatedBanned === 'true'}
               />
 
               <Form methods={methodsLimit} onBlur={methodsLimit.handleSubmit(updatePermissionAPI.mutate)}>
@@ -155,7 +162,7 @@ export default function EditRoleForm({ role }) {
               </Form>
             </div>
           )
-}
+      }
 
       {
         deleteRoleButton()
