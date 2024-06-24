@@ -1,35 +1,47 @@
 version: '3'
 
+volumes:
+  postgres-data:
+  redis-data:
+
+
 services:
-  postgres:
-    image: postgres:14.6-alpine3.17
-    container_name: postgres
+  db:
+    image: postgres:14.8-alpine
+    container_name: db
     restart: unless-stopped
+    ports:
+      - 5432:5432
     volumes:
-      - ./data/postgres/14/database_data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_HOST: db
 
   redis:
-    image: redis:6.2-alpine3.17
+    image: redis:7.2.4-alpine
     container_name: redis
     restart: unless-stopped
     volumes:
-      - ./data/redis/database_data:/data
+      - redis-data:/data
 
-  greenlight-v3:
-    entrypoint: [bin/start]
-    image: bigbluebutton/greenlight:v3
-    container_name: greenlight-v3
+  greenlight:
+    image: greenlight
+    container_name: greenlight
     restart: unless-stopped
-    env_file: .env
     ports:
-      - 127.0.0.1:5050:3000
-    logging:
-      driver: journald
-    volumes:
-      - ./data/greenlight-v3/storage:/usr/src/app/storage
+      - "3000:3000"
+      - "587:587"
+    env_file:
+      - .env
     depends_on:
-      - postgres
+      - db
       - redis
+    logging:
+      driver: "json-file"
+    volumes:
+      - ./app/javascript:/usr/src/app/app/javascript
+      - ./log/cron.log:/var/log/cron.log
+
