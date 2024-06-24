@@ -287,7 +287,11 @@
         "allow_users_to_share_rooms": "Räume können geteilt werden",
         "allow_users_to_share_rooms_description": "Wenn dies deaktiviert ist, dann wird der Knopf zum Teilen eines Raums von den Raumeinstellungen entfernt.",
         "allow_users_to_preupload_presentation": "Präsentationen können hochgeladen werden",
-        "allow_users_to_preupload_presentation_description": "Nutzer:innen können eine Präsentation im Voraus hochladen, die dann als Standard für diesen Raum genutzt wird."
+        "allow_users_to_preupload_presentation_description": "Nutzer:innen können eine Präsentation im Voraus hochladen, die dann als Standard für diesen Raum genutzt wird.",
+        "activate_automated_deletion_of_expired_rooms": "Automatisches Löschen von abgelaufenen Räumen",
+        "activate_automated_deletion_of_expired_rooms_description": "Wenn das aktiviert ist, werden Räume automatisch gelöscht, wenn das Löschdatum erreicht ist.",
+        "set_automated_ban_time_from_inactive_users": "Automatische Sperrung von inaktiven Nutzer:innen",
+        "set_automated_ban_time_from_inactive_users_description": "Nutzer:innen werden automatisch gesperrt, wenn sie sich für die angegebene Anzahl an Tagen nicht einloggen. 0 deaktiviert diese Funktion."
       },
       "registration": {
         "registration": "Registrierung",
@@ -300,7 +304,7 @@
         "default_role_description": "Standard-Rolle, die neuen Nutzer:innen zugeteilt wird",
         "registration_method": "Registrierungs-Methode",
         "registration_method_description": "Registrierungs-Methoden ändern",
-        "registration_methods" : {
+        "registration_methods": {
           "open": "Offene Registrierung",
           "invite": "Per Einladung teilnehmen",
           "approval": "Zulassen/Ablehnen"
@@ -313,6 +317,7 @@
       "optional": "Optional (Standard: Deaktiviert)",
       "enabled": "Aktiviert",
       "disabled": "Deaktiviert",
+      "room_deletion_date": "Raum-Löschdatum",
       "configurations": {
         "allow_room_to_be_recorded": "Raum kann aufgezeichnet werden",
         "allow_room_to_be_recorded_description": "Aufzeichnungen erlauben. Wenn aktiviert, muss die Moderation immer noch den \"Aufnahme\"-Knopf drücken, nachdem die Konferenz begonnen hat.",
@@ -355,7 +360,9 @@
         "manage_site_settings": "Nutzer:innen mit dieser Rolle erlauben, die Webseiteneinstellungen zu verwalten",
         "manage_roles": "Nutzer:innen mit dieser Rolle erlauben, andere Rollen zu bearbeiten",
         "shared_list": "Nutzer:innen mit dieser Rolle in die Auswahlliste für die gemeinsame Nutzung von Räumen aufnehmen",
-        "room_limit": "Raumlimit"
+        "room_limit": "Raumlimit",
+        "email_on_signup": "E-Mail bei Registrierung eines Nutzers",
+        "email_on_automated_banned": "E-Mail bei automatischer Sperrung eines Nutzers"
       }
     }
   },
@@ -528,8 +535,8 @@
     "room_join": {
       "fields": {
         "name": {
-            "label": "Name",
-            "placeholder": "Namen eingeben"
+          "label": "Name",
+          "placeholder": "Namen eingeben"
         },
         "access_code": {
           "label": "Zugangscode",
