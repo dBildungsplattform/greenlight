@@ -3,6 +3,7 @@ version: '3'
 volumes:
   postgres-data:
   redis-data:
+  pin-data:
 
 networks:
   my_network:
@@ -37,13 +38,15 @@ services:
 
   
   redis_pin_store:
-    image: redis:7.2.4-alpine
-    container_name: redis_pin_store
-    restart: unless-stopped
-    ports:
-      - 6380:6379
-    networks:
-      - my_network
+      image: redis:7.2.4-alpine
+      container_name: redis_pin_store
+      restart: unless-stopped
+      volumes:
+      - pin-data:/data
+      ports:
+        - 6380:6379
+      networks:
+        - my_network
 
   greenlight:
     image: greenlight
@@ -57,6 +60,7 @@ services:
     depends_on:
       - db
       - redis
+      - redis_pin_store
     logging:
       driver: "json-file"
     volumes:
