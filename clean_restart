@@ -1,0 +1,7 @@
+#!/bin/bash -e
+
+docker-compose down -v
+docker build -f Dockerfile -t greenlight .
+docker-compose up -d
+sleep 10
+docker exec -it greenlight bundle exec rake admin:create

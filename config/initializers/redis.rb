@@ -1,3 +1,3 @@
 require 'redis'
 
-$redis = Redis.new(host: 'redis', port: 6379)
+$redis = Redis.new(host: 'redis_pin_store', port: 6379)

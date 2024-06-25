@@ -1,0 +1,9 @@
+# Dockerfile.redis_pin_store
+FROM redis:7.2.4-alpine
+
+COPY ./lua/unique_number.lua /usr/local/etc/redis/unique_number.lua
+COPY ./lua/entrypoint.sh /usr/local/bin/entrypoint.sh
+
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

@@ -1,5 +1,6 @@
 #!/bin/bash -e
 
 docker-compose down
+#docker build -f Dockerfile.redis -t redis_pin_store .
 docker build -f Dockerfile -t greenlight .
 docker-compose up -d

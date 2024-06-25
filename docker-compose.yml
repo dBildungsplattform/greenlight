@@ -35,6 +35,16 @@ services:
     networks:
       - my_network
 
+  
+  redis_pin_store:
+    image: redis:7.2.4-alpine
+    container_name: redis_pin_store
+    restart: unless-stopped
+    ports:
+      - 6380:6379
+    networks:
+      - my_network
+
   greenlight:
     image: greenlight
     container_name: greenlight

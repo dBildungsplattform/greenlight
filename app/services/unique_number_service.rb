@@ -1,20 +1,39 @@
 # app/services/unique_number_service.rb
 class UniqueNumberService
-    KEY = 'unique_number'
-    INITIAL_VALUE = 10000
-  
-    def self.next_number
-      ensure_initial_value
-      number = $redis.incr(KEY)
-      Logger.new(STDOUT).info("UniqueNumberService: next_number: #{number}")
-        number
+  KEY = 'unique_numbers_set'
+  LUA_SCRIPT = <<-LUA
+    local min = 10000
+    local max = 99999
+    local key = KEYS[1]
+
+    -- Generate a random number between min and max
+    local function generate_number()
+        return math.random(min, max)
     end
-  
-    def self.ensure_initial_value
-      current_value = $redis.get(KEY).to_i
-      if current_value < INITIAL_VALUE
-        $redis.set(KEY, INITIAL_VALUE - 1)
-      end
+
+    -- Check if the number is unique
+    local function is_unique(number)
+        return redis.call("SISMEMBER", key, number) == 0
     end
+
+    -- Generate a unique number
+    local function generate_unique_number()
+        local number = generate_number()
+        while not is_unique(number) do
+            number = generate_number()
+        end
+        return number
+    end
+
+    -- Generate a unique number and add it to the set
+    local unique_number = generate_unique_number()
+    redis.call("SADD", key, unique_number)
+    return unique_number
+  LUA
+
+  def self.next_number
+    number = $redis.eval(LUA_SCRIPT, keys: [KEY])
+    Logger.new(STDOUT).info("UniqueNumberService: next_number: #{number}")
+    number
   end
-  
+end
