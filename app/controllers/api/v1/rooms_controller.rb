@@ -113,7 +113,9 @@ module Api
       # DELETE /api/v1/rooms.json
       # Updates the specified room
       def destroy
+        voice_bridge = @room.voice_bridge
         if @room.destroy
+          UniqueNumberService.remove_number(voice_bridge)
           render_data status: :ok
         else
           render_error errors: @room.errors.to_a, status: :bad_request

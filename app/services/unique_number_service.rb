@@ -36,4 +36,18 @@ class UniqueNumberService
     Logger.new(STDOUT).info("UniqueNumberService: next_number: #{number}")
     number
   end
+
+
+  def self.remove_number(number)
+    result = $redis.srem(KEY, number)
+    if result == 1
+      Logger.new(STDOUT).info("UniqueNumberService: Removed number: #{number}")
+      true
+    else
+      Logger.new(STDOUT).warn("UniqueNumberService: Number not found: #{number}")
+      false
+    end
+  end
+
+  
 end
