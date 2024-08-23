@@ -33,7 +33,7 @@ env | grep -v 'no_proxy' | while read -r line; do
   echo "$line"
 done >/etc/crontabs/root
 
-echo "* * * * * /usr/src/app/cronjobs/daily_rake_tasks.sh >> /var/log/cron.log 2>&1" >>/etc/crontabs/root # TODO: Change to daily for production "0 0 * * *"
+echo "* * * * * /usr/src/app/cronjobs/daily_rake_tasks.sh >> /dev/stdout 2>&1" >>/etc/crontabs/root # TODO: Change to daily for production "0 0 * * *"
 
 # Start cron daemon as a background process
 crond
