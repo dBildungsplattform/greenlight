@@ -120,4 +120,24 @@ class Room < ApplicationRecord
   rescue StandardError
     retry
   end
+
+  def self.delete_expired_rooms
+    expired_rooms = Room.where(deletion_date: ...Time.current)
+    AutomatedDeletionOfExpiredRoomsId = Setting.find_by(name: 'AutomatedDeletionOfExpiredRooms')&.id
+    is_automated_deletion_enabled = SiteSetting.find_by(setting_id: AutomatedDeletionOfExpiredRoomsId)&.value == 'true'
+
+    if expired_rooms.any? && is_automated_deletion_enabled
+      size = expired_rooms.size
+      expired_rooms.each do |room|
+        room.notify_room_deletion
+        room.destroy
+        Rails.logger.info "Deleted room #{room.id}"
+      rescue StandardError => e
+        Rails.logger.error "Failed to delete room #{room.id}: #{e.message}"
+      end
+      Rails.logger.info "Deleted #{size} expired rooms."
+    else
+      Rails.logger.info 'No expired rooms to delete, or automated deletion is disabled.'
+    end
+  end
 end

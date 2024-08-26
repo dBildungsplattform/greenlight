@@ -27,12 +27,13 @@ gem 'omniauth', '~> 2.1.0'
 gem 'omniauth_openid_connect', '>= 0.6.1'
 gem 'omniauth-rails_csrf_protection', '~> 1.0.1'
 gem 'pagy', '~> 6.0', '>= 6.0.0'
-gem 'pg', '~> 1.5.6'
-gem 'puma', '~> 6.4.2'
+gem 'pg'
+gem 'puma', '~> 5.6'
 gem 'rails', '~> 7.1.1'
 gem 'redis', '~> 4.0'
 gem 'sprockets-rails'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
+gem 'rufus-scheduler'
 
 group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]
