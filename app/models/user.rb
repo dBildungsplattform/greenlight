@@ -239,8 +239,8 @@ class User < ApplicationRecord
         puts "Failed to block #{user.email}: #{e.message}"
       end
       puts "Blocked #{size} inactive users."
+    else
+      puts 'No inactive users to block.'
     end
-  else
-    puts 'No inactive users to block.'
   end
 end
