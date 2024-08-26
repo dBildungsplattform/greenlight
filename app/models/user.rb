@@ -242,6 +242,5 @@ class User < ApplicationRecord
     else
       Rails.logger.info 'No inactive users to block.'
     end
-    Rails.logger.flush
   end
 end
