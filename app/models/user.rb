@@ -239,4 +239,5 @@ class User < ApplicationRecord
       end
     end
     return
+  end
 end
