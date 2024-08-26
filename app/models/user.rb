@@ -234,9 +234,13 @@ class User < ApplicationRecord
       inactive_users.each do |user|
         user.update(status: 2)
         user.notify_admins_blocked_users_inactivity
+        puts "Blocked user: #{user.email}"
       rescue StandardError => e
         puts "Failed to block #{user.email}: #{e.message}"
       end
+      puts "Blocked #{size} inactive users."
     end
+  else
+    puts 'No inactive users to block.'
   end
 end
