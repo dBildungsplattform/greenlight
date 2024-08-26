@@ -123,8 +123,8 @@ class Room < ApplicationRecord
 
   def self.delete_expired_rooms
     expired_rooms = Room.where(deletion_date: ...Time.current)
-    AutomatedDeletionOfExpiredRoomsId = Setting.find_by(name: 'AutomatedDeletionOfExpiredRooms')&.id
-    is_automated_deletion_enabled = SiteSetting.find_by(setting_id: AutomatedDeletionOfExpiredRoomsId)&.value == 'true'
+    automatedDeletionOfExpiredRoomsId = Setting.find_by(name: 'AutomatedDeletionOfExpiredRooms')&.id
+    is_automated_deletion_enabled = SiteSetting.find_by(setting_id: automatedDeletionOfExpiredRoomsId)&.value == 'true'
 
     if expired_rooms.any? && is_automated_deletion_enabled
       size = expired_rooms.size
