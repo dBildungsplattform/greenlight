@@ -223,7 +223,7 @@ class User < ApplicationRecord
     setting_id = Setting.find_by(name: 'AutomatedUserBanTime')&.id
     days = SiteSetting.find_by(setting_id: setting_id)&.value.to_i
     if days.nil? || days.zero?
-      return
+      return false
     end
     inactive_users = User.where('users.status !=2 AND users.last_login < ?',
                                 days.days.ago).or(User.where('users.status !=2 AND users.last_login IS NULL AND users.created_at < ?',
@@ -238,6 +238,5 @@ class User < ApplicationRecord
         puts "Failed to block #{user.email}: #{e.message}"
       end
     end
-    return
   end
 end
