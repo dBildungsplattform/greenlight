@@ -33,7 +33,7 @@ gem 'rails', '~> 7.1.1'
 gem 'redis', '~> 4.0'
 gem 'sprockets-rails'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
-gem 'puma-rufus-scheduler'
+gem 'rufus-scheduler'
 
 group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]

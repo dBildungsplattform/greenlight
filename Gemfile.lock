@@ -161,6 +161,8 @@ GEM
     email_validator (2.2.4)
       activemodel
     erubi (1.12.0)
+    et-orbi (1.2.11)
+      tzinfo
     factory_bot (6.4.6)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.4.3)
@@ -176,6 +178,9 @@ GEM
       net-http
     ffi (1.17.0-x64-mingw-ucrt)
     ffi (1.17.0-x86_64-linux-musl)
+    fugit (1.11.1)
+      et-orbi (~> 1, >= 1.2.11)
+      raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
     google-apis-core (0.15.0)
@@ -319,7 +324,7 @@ GEM
     public_suffix (5.0.5)
     puma (6.4.2)
       nio4r (~> 2.0)
-    puma-rufus-scheduler (0.1.0)
+    raabro (1.4.0)
     racc (1.8.0)
     rack (3.0.11)
     rack-oauth2 (2.2.1)
@@ -431,6 +436,8 @@ GEM
     ruby-vips (2.2.1)
       ffi (~> 1.12)
     rubyzip (2.3.2)
+    rufus-scheduler (3.9.1)
+      fugit (~> 1.1, >= 1.1.6)
     selenium-webdriver (4.10.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
@@ -533,7 +540,6 @@ DEPENDENCIES
   pagy (~> 6.0, >= 6.0.0)
   pg (~> 1.5.6)
   puma (~> 6.4.2)
-  puma-rufus-scheduler
   rails (~> 7.1.1)
   redis (~> 4.0)
   remote_syslog_logger
@@ -542,6 +548,7 @@ DEPENDENCIES
   rubocop-performance (~> 1.13)
   rubocop-rails (~> 2.18, >= 2.18.0)
   rubocop-rspec (~> 2.9.0)
+  rufus-scheduler
   selenium-webdriver
   shoulda-matchers (~> 5.0)
   sprockets-rails
