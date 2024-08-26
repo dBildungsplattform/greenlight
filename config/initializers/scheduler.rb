@@ -2,6 +2,6 @@ require 'rufus-scheduler'
 
 scheduler = Rufus::Scheduler.new
 
-scheduler.cron '0 * * * *' do
+scheduler.every '60s' do
     User.disable_inactive_users
 end
