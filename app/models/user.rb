@@ -236,11 +236,12 @@ class User < ApplicationRecord
         user.notify_admins_blocked_users_inactivity
         Rails.logger.info "Blocked user: #{user.email}"
       rescue StandardError => e
-        Rails.logger.info "Failed to block #{user.email}: #{e.message}"
+        Rails.logger.error "Failed to block #{user.email}: #{e.message}"
       end
       Rails.logger.info "Blocked #{size} inactive users."
     else
       Rails.logger.info 'No inactive users to block.'
     end
+    Rails.logger.flush
   end
 end
