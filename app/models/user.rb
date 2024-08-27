@@ -219,7 +219,7 @@ class User < ApplicationRecord
     errors.add(:user_provider, 'has to be the same as the Role provider') if provider != role.provider
   end
 
-  def self.disable_inactive_users
+  def self.block_inactive_users
     setting_id = Setting.find_by(name: 'AutomatedUserBanTime')&.id
     days = SiteSetting.find_by(setting_id: setting_id)&.value.to_i
     if days.nil? || days.zero?
