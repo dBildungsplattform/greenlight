@@ -68,7 +68,7 @@ export default function EditRoleForm({ role }) {
       {
         isLoadingRoomConfigs || isLoading
           ? (
-              // eslint-disable-next-line react/no-array-index-key
+          // eslint-disable-next-line react/no-array-index-key
             [...Array(9)].map((val, idx) => <RolePermissionRowPlaceHolder key={idx} />)
           )
           : (
@@ -83,12 +83,12 @@ export default function EditRoleForm({ role }) {
                 defaultValue={rolePermissions?.CreateRoom === 'true'}
               />
               {['optional', 'default_enabled'].includes(roomConfigs?.record) && (
-                  <RolePermissionRow
-                    permissionName="CanRecord"
-                    description={t('admin.roles.edit.record')}
-                    roleId={role?.id}
-                    defaultValue={rolePermissions?.CanRecord === 'true'}
-                  />
+              <RolePermissionRow
+                permissionName="CanRecord"
+                description={t('admin.roles.edit.record')}
+                roleId={role?.id}
+                defaultValue={rolePermissions?.CanRecord === 'true'}
+              />
               )}
               <RolePermissionRow
                 permissionName="ManageUsers"
@@ -116,12 +116,12 @@ export default function EditRoleForm({ role }) {
               />
               {/* Don't show ManageRoles if current_user is editing their own role */}
               {(currentUser.role.id !== role?.id) && (
-                  <RolePermissionRow
-                    permissionName="ManageRoles"
-                    description={t('admin.roles.edit.manage_roles')}
-                    roleId={role?.id}
-                    defaultValue={rolePermissions?.ManageRoles === 'true'}
-                  />
+              <RolePermissionRow
+                permissionName="ManageRoles"
+                description={t('admin.roles.edit.manage_roles')}
+                roleId={role?.id}
+                defaultValue={rolePermissions?.ManageRoles === 'true'}
+              />
               )}
               <RolePermissionRow
                 permissionName="SharedList"
