@@ -41,7 +41,7 @@ class Role < ApplicationRecord
   def create_role_permissions
     return if %w[Administrator User Guest SuperAdmin].include? name # skip creation for default roles
 
-    Permission.find_each do |permission|
+    Permission.all.find_each do |permission|
       value = case permission.name
               when 'CreateRoom', 'SharedList', 'CanRecord'
                 'true'

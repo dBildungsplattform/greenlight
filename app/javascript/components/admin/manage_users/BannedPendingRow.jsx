@@ -46,7 +46,7 @@ export default function BannedPendingRow({ user, pendingTable }) {
           </div>
           <Stack>
             <span className="text-dark fw-bold"> {user.name} </span>
-            <span className="small"> {t('admin.manage_users.user_created_at', { localizedTime })}</span>
+            <span className="small"> { t('admin.manage_users.user_created_at', { localizedTime }) }</span>
           </Stack>
         </Stack>
       </td>

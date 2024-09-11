@@ -54,7 +54,7 @@ class UserMailer < ApplicationMailer
   def new_user_signup_email
     @user = params[:user]
     @admin_panel_url = params[:admin_panel_url]
-    emails = admin_emails('EmailOnSignup') 
+    emails = admin_emails('EmailOnSignup')
 
     return if emails.blank? # Dont send anything if no-one has EmailOnSignup enabled
 

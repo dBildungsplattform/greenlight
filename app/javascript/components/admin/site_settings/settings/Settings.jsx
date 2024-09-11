@@ -32,9 +32,9 @@ export default function Settings() {
         title={t('admin.site_settings.settings.allow_users_to_share_rooms')}
         description={(
           <p className="text-muted">
-            {t('admin.site_settings.settings.allow_users_to_share_rooms_description')}
+            { t('admin.site_settings.settings.allow_users_to_share_rooms_description') }
           </p>
-        )}
+      )}
         value={siteSettings?.ShareRooms}
       />
       <SettingsRow
@@ -44,7 +44,7 @@ export default function Settings() {
           <p className="text-muted">
             {t('admin.site_settings.settings.allow_users_to_preupload_presentation_description')}
           </p>
-        )}
+      )}
         value={siteSettings?.PreuploadPresentation}
       />
       <SettingsRow

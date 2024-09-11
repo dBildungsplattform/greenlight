@@ -72,3 +72,4 @@ RUN ls -al
 EXPOSE 3000
 CMD [ "./bin/start" ]
 #ENTRYPOINT [ "./bin/start" ]
+
