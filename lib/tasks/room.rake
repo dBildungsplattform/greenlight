@@ -65,7 +65,7 @@ namespace :room do
     args.with_defaults(dryrun: 'false')
     info "Validating whole CSV file first"
     rooms = []
-    CSV.foreach(args[:file], headers: true) do |room|
+    CSV.foreach(args[:file], headers: true, col_sep: ";") do |room|
       info "#{room['Raumname']}"
       argmap = {
         :name => 'raumname',
