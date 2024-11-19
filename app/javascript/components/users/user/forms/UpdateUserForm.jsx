@@ -68,6 +68,12 @@ export default function UpdateUserForm({ user }) {
     methods.setValue('language', currentLanguage());
   }, [currentLanguage()]);
 
+  // Check if the current user has a specific role
+  const hasSpecificRole = currentUser?.role.name === 'Administrator';
+
+  // Filter roles based on name and/or ID if the current user does not have the specific role
+  const filteredRoles = hasSpecificRole ? roles : roles?.filter(role => role.name !== 'Administrator');
+
   return (
     <Form methods={methods} onSubmit={updateUserAPI.mutate}>
       <FormControl field={fields.name} type="text" />
@@ -77,10 +83,10 @@ export default function UpdateUserForm({ user }) {
           Object.keys(locales || {}).map((code) => <Option key={code} value={code}>{locales[code]}</Option>)
         }
       </FormSelect>
-      {(canUpdateRole && roles) && (
+      {(canUpdateRole && filteredRoles) && (
         <FormSelect field={fields.role_id} variant="dropdown">
           {
-            roles.map((role) => <Option key={role.id} value={role.id}>{role.name}</Option>)
+            filteredRoles.map((role) => <Option key={role.id} value={role.id}>{role.name}</Option>)
           }
         </FormSelect>
       )}
