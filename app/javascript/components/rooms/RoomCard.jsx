@@ -37,6 +37,16 @@ export default function RoomCard({ room }) {
   const currentUser = useAuth();
   const localizedTime = localizeDateTimeString(room?.last_session, currentUser?.language);
 
+  function copyInvite(friendlyId) {
+    navigator.clipboard.writeText(`${window.location}/${friendlyId}/join`);
+    toast.success(t('toast.success.room.copied_meeting_url'));
+  }
+
+  function copyVoiceBridge(voiceBridge, voiceBridgePhoneNumber) {
+    navigator.clipboard.writeText(`Tel.: ${voiceBridgePhoneNumber} Pin: ${voiceBridge}`);
+    toast.success(t('toast.success.room.copied_voice_bridge'));
+  }
+
   return (
     <Card id="room-card" className="h-100 card-shadow border-0">
       <Card.Body className="pb-0" onClick={handleClick}>
@@ -51,8 +61,8 @@ export default function RoomCard({ room }) {
         </Stack>
 
         <Stack className="my-4">
-          <Card.Title className="mb-0"> { room.name } </Card.Title>
-          { room.shared_owner && (
+          <Card.Title className="mb-0"> {room.name} </Card.Title>
+          {room.shared_owner && (
             <span className="text-muted">{ t('room.shared_by') } {' '} <strong>{ room.shared_owner }</strong></span>
           )}
           {room.last_session ? (
@@ -63,19 +73,20 @@ export default function RoomCard({ room }) {
         </Stack>
       </Card.Body>
       <Card.Footer className="bg-white">
-        <Modal
-          size="lg"
-          modalButton={(
-            <Button
-              variant="icon"
-            >
-              <ShareIcon className="hi-m mt-1 text-muted" />
-            </Button>
-          )}
-          title={t('room.meeting.share_meeting')}
-          body={<ShareRoomForm room={room} friendly_id={room.friendly_id} />}
-        />
-
+        <Button
+          variant="icon"
+          onClick={() => copyInvite(room.friendly_id)}
+        >
+          <DocumentDuplicateIcon className="hi-m mt-1 text-muted" />
+        </Button>
+        {typeof room.voice_bridge_phone_number !== 'undefined' && (
+        <Button
+          variant="icon"
+          onClick={() => copyVoiceBridge(room.voice_bridge, room.voice_bridge_phone_number)}
+        >
+          <PhoneIcon className="hi-m mt-1 text-muted" />
+        </Button>
+        )}
         <Button variant="brand-outline" className="btn btn-md float-end" onClick={startMeeting.mutate} disabled={startMeeting.isLoading}>
           {startMeeting.isLoading && <Spinner className="me-2" />}
           {room.online ? (
