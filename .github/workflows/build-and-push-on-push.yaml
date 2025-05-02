@@ -25,4 +25,4 @@ jobs:
     name: ClamAV scan of uploaded image
     uses: dBildungsplattform/dbp-github-workflows/.github/workflows/check-image-clamav.yaml@DBP-1401-clamav
     with:
-      image_ref: "basa/eicar"
+      image_ref: "cloudelements/eicar"
