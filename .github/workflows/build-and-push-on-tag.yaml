@@ -31,3 +31,4 @@ jobs:
       add_latest_tag: true
       container_registry: "ghcr.io"
       image_tag: ${{ 'v' + needs.pre_build.outputs.tag + needs.pre_build.outputs.suffix }}
+      run_clamav_scan: true
