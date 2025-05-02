@@ -14,7 +14,7 @@ jobs:
       security-events: write
       actions: read
       contents: read
-    uses: dBildungsplattform/dbp-github-workflows/.github/workflows/image-publish-trivy.yaml@DBP-1401-clamav
+    uses: dBildungsplattform/dbp-github-workflows/.github/workflows/image-publish-trivy.yaml@7
     with:
       image_name: "greenlight"
       image_tag_generation: "ticket_from_branch"
