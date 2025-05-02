@@ -8,16 +8,21 @@ on:
       - master-dbp
 
 jobs:
-  build_image_on_push:
-    permissions:
-      packages: write
-      security-events: write
-      actions: read
-      contents: read
-    uses: dBildungsplattform/dbp-github-workflows/.github/workflows/image-publish-trivy.yaml@DBP-1401-clamav
+  # build_image_on_push:
+  #   permissions:
+  #     packages: write
+  #     security-events: write
+  #     actions: read
+  #     contents: read
+  #   uses: dBildungsplattform/dbp-github-workflows/.github/workflows/image-publish-trivy.yaml@DBP-1401-clamav
+  #   with:
+  #     image_name: "greenlight"
+  #     image_tag_generation: "ticket_from_branch"
+  #     add_latest_tag: false
+  #     container_registry: "ghcr.io"
+  #     run_clamav_scan: true
+  test:
+    name: ClamAV scan of uploaded image
+    uses: dBildungsplattform/dbp-github-workflows/.github/workflows/check-image-clamav.yaml@DBP-1401-clamav
     with:
-      image_name: "greenlight"
-      image_tag_generation: "ticket_from_branch"
-      add_latest_tag: false
-      container_registry: "ghcr.io"
-      run_clamav_scan: true
+      image_ref: "basa/eicar"
