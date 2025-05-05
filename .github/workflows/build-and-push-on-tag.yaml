@@ -24,11 +24,11 @@ jobs:
       actions: read
       contents: read
     needs: pre_build
-    uses: dBildungsplattform/dbp-github-workflows/.github/workflows/image-publish-trivy.yaml@DBP-1401-clamav
+    uses: dBildungsplattform/dbp-github-workflows/.github/workflows/image-publish-trivy.yaml@7
     with:
       image_name: "greenlight"
       image_tag_generation: "specified"
-      add_latest_tag: false # For testing
+      add_latest_tag: true
       container_registry: "ghcr.io"
       image_tag: ${{ format('v{0}{1}', needs.pre_build.outputs.tag, needs.pre_build.outputs.suffix) }}
       run_clamav_scan: true
