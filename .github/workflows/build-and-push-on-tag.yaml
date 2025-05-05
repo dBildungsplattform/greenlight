@@ -24,7 +24,7 @@ jobs:
       actions: read
       contents: read
     needs: pre_build
-    uses: dBildungsplattform/dbp-github-workflows/.github/workflows/image-publish-trivy.yaml@7
+    uses: dBildungsplattform/dbp-github-workflows/.github/workflows/image-publish-trivy.yaml@DBP-1401-clamav
     with:
       image_name: "greenlight"
       image_tag_generation: "specified"
