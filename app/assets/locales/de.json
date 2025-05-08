@@ -206,6 +206,7 @@
       "ban": "Sperren",
       "unban": "Entsperren",
       "deleted": "Gelöscht",
+      "import_from_csv": "Von CSV importieren",
       "invited_tab": "Eingeladen",
       "invite_user": "Nutzer:in einladen",
       "send_invitation": "Einladung senden",
