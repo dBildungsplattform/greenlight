@@ -68,7 +68,7 @@ export default function BannedPendingRow({ user, pendingTable }) {
                 </Dropdown.Item>
               </>
             ) : (
-              <Dropdown.Item onClick={() => updateUserStatus.mutate({ id: user.id, status: 'active' })}>
+              <Dropdown.Item onClick={() => updateUserStatus.mutate({ id: user.id, status: 'active', last_login: new Date().toDateString() })}>
                 <CheckIcon className="hi-s me-2" />
                 {t('admin.manage_users.unban')}
               </Dropdown.Item>

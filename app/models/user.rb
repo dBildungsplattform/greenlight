@@ -188,6 +188,10 @@ class User < ApplicationRecord
     user
   end
 
+  def notify_admins_blocked_users_inactivity
+    UserMailer.with(user: self).inform_admins_blocked_users_inactivity_email.deliver_now
+  end
+
   # Checkes the expiration of a token.
   def self.activation_token_expired?(sent_at)
     Time.current > (sent_at.in(ACTIVATION_TOKEN_VALIDITY_PERIOD))
@@ -213,5 +217,30 @@ class User < ApplicationRecord
     return unless role
 
     errors.add(:user_provider, 'has to be the same as the Role provider') if provider != role.provider
+  end
+
+  def self.block_inactive_users
+    setting_id = Setting.find_by(name: 'AutomatedUserBanTime')&.id
+    days = SiteSetting.find_by(setting_id: setting_id)&.value.to_i
+    if days.nil? || days.zero?
+      return false
+    end
+    inactive_users = User.where('users.status !=2 AND users.last_login < ?',
+                                days.days.ago).or(User.where('users.status !=2 AND users.last_login IS NULL AND users.created_at < ?',
+                                                             days.days.ago))
+    inactive_users = inactive_users.includes(:role).where.not(roles: { name: 'Administrator' })
+    if inactive_users.any?
+      size = inactive_users.size
+      inactive_users.each do |user|
+        user.update(status: 2)
+        user.notify_admins_blocked_users_inactivity
+        Rails.logger.info "Blocked user: #{user.email}"
+      rescue StandardError => e
+        Rails.logger.error "Failed to block #{user.email}: #{e.message}"
+      end
+      Rails.logger.info "Blocked #{size} inactive users."
+    else
+      Rails.logger.info 'No inactive users to block.'
+    end
   end
 end

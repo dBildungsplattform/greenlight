@@ -30,13 +30,14 @@ export default function SettingsRow({
         <strong> {title} </strong>
         {description}
       </Stack>
-      <div className="form-switch">
+      <div className="">
         <input
-          className="form-check-input fs-5"
-          type="checkbox"
-          checked={value === 'true'}
-          onClick={(event) => {
-            updateSiteSetting.mutate({ value: event.target.checked });
+          className="room-limit fs-5"
+          type="number"
+          min='0'
+          value={value}
+          onChange={(event) => {
+            updateSiteSetting.mutate({ value: event.target.value });
           }}
         />
       </div>

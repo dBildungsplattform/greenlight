@@ -24,6 +24,11 @@ class UserMailer < ApplicationMailer
     mail(to: params[:to], subject: params[:subject])
   end
 
+  def room_deletion_info
+    @room_name = params[:room_name]
+    mail(to: params[:to], subject: params[:subject])
+  end
+
   def reset_password_email
     @user = params[:user]
     @reset_url = params[:reset_url]
@@ -49,11 +54,20 @@ class UserMailer < ApplicationMailer
   def new_user_signup_email
     @user = params[:user]
     @admin_panel_url = params[:admin_panel_url]
-    emails = admin_emails
+    emails = admin_emails('EmailOnSignup')
 
     return if emails.blank? # Dont send anything if no-one has EmailOnSignup enabled
 
     mail(to: emails, subject: t('email.new_user_signup.new_user'))
+  end
+
+  def inform_admins_blocked_users_inactivity_email
+    @user = params[:user]
+    emails = admin_emails('EmailOnAutomatedBanned') 
+
+    return if emails.blank? # Dont send anything if no-one has EmailOnAutomatedBanned enabled
+
+    email = mail(to: emails, subject: t('email.blocked.account_blocked'))
   end
 
   private
@@ -69,10 +83,10 @@ class UserMailer < ApplicationMailer
     @brand_color = branding_hash['PrimaryColor']
   end
 
-  def admin_emails
-    # Find all the roles that have EmailOnSignup enabled
+  def admin_emails(permission_name)
+    # Find all the roles that have permission_name enabled
     role_ids = Role.joins(role_permissions: :permission).with_provider(@provider).where(role_permissions: { value: 'true' },
-                                                                                        permission: { name: 'EmailOnSignup' })
+                                                                                        permission: { name: permission_name })
                    .pluck(:id)
 
     User.where(role_id: role_ids).pluck(:email)

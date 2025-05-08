@@ -82,7 +82,7 @@ module Api
         private
 
         def user_params
-          params.require(:user).permit(:status)
+          params.require(:user).permit(:status, :last_login)
         end
       end
     end

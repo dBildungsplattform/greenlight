@@ -65,6 +65,13 @@ de:
       get_started: "Um dich zu registrieren, klicken bitte auf diese Schaltfläche."
       valid_invitation: Die Einladung ist 24 Stunden gültig.
       sign_up: Registrieren
+    new_user_signup:
+      new_user: Neue BigBlueButton Benutzeranmeldung
+      new_user_description: Ein neuer Benutzer hat sich angemeldet, um BigBlueButton zu nutzen.
+      name: "Name: %{name}"
+      email: "E-Mail: %{email}"
+      admin_panel: "Administrator-Panel"
+      take_action: "Um den neuen Benutzer zu sehen oder die notwendigen Maßnahmen zu ergreifen, besuchen Sie das Administrator-Panel"
     reset:
       password_reset: Passwort zurücksetzen
       password_reset_requested: "Eine Passwortrücksetzung wurde für %{email} beantragt."
@@ -72,5 +79,8 @@ de:
       reset_password: Passwort zurücksetzen
       link_expires: Der Link wird in 1 Stunde ungültig.
       ignore_request: "Wenn du dein Passwort nicht ändern wolltest, dann ignoriere bitte diese E-Mail."
+    blocked:
+      account_blocked: Konto eines Inaktiven Nutzers gesperrt
+      account_blocked_description: Ein Konto wurde aufgrund von Inaktivität gesperrt.
   room:
     new_room_name: "%{username}'s Raum"

@@ -16,29 +16,21 @@
 
 # frozen_string_literal: true
 
-class CurrentRoomSerializer < ApplicationSerializer
-  include Presentable
+class AddEmailOnAutomatedBannedPermission < ActiveRecord::Migration[7.1]
+  def up
+    email_permission = Permission.create!(name: 'EmailOnAutomatedBanned')
+    admin = Role.find_by(name: 'Administrator')
 
-  attributes :id, :name, :presentation_name, :thumbnail, :online, :participants, :shared, :owner_name, :deletion_date
+    values = [{ role: admin, permission: email_permission, value: 'true' }]
 
-  attribute :last_session, if: -> { object.last_session }
+    Role.where.not(name: 'Administrator').find_each do |role|
+      values.push({ role:, permission: email_permission, value: 'false' })
+    end
 
-  attribute :voice_bridge, if: -> { Rails.application.config.voice_bridge_phone_number }
-  attribute :voice_bridge_phone_number, if: -> { Rails.application.config.voice_bridge_phone_number }
-
-  def presentation_name
-    presentation_file_name(object)
+    RolePermission.create! values
   end
 
-  def thumbnail
-    presentation_thumbnail(object)
-  end
-
-  def owner_name
-    object.user.name
-  end
-
-  def voice_bridge_phone_number
-    Rails.application.config.voice_bridge_phone_number
+  def down
+    raise ActiveRecord::IrreversibleMigration
   end
 end

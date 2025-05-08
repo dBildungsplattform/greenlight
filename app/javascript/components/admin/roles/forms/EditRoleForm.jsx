@@ -137,6 +137,13 @@ export default function EditRoleForm({ role }) {
                 defaultValue={rolePermissions?.EmailOnSignup === 'true'}
               />
 
+              <RolePermissionRow
+                permissionName="EmailOnAutomatedBanned"
+                description={t('admin.roles.edit.email_on_automated_banned')}
+                roleId={role?.id}
+                defaultValue={rolePermissions?.EmailOnAutomatedBanned === 'true'}
+              />
+
               <Form methods={methodsLimit} onBlur={methodsLimit.handleSubmit(updatePermissionAPI.mutate)}>
                 <Stack direction="horizontal">
                   <div className="text-muted me-auto">

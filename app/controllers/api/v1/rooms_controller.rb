@@ -160,7 +160,7 @@ module Api
       end
 
       def room_params
-        params.require(:room).permit(:name, :user_id, :voice_bridge, :presentation)
+        params.require(:room).permit(:name, :user_id, :voice_bridge, :presentation, :deletion_date)
       end
     end
   end

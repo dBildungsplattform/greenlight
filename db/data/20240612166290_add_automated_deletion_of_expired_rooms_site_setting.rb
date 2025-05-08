@@ -16,29 +16,14 @@
 
 # frozen_string_literal: true
 
-class CurrentRoomSerializer < ApplicationSerializer
-  include Presentable
-
-  attributes :id, :name, :presentation_name, :thumbnail, :online, :participants, :shared, :owner_name, :deletion_date
-
-  attribute :last_session, if: -> { object.last_session }
-
-  attribute :voice_bridge, if: -> { Rails.application.config.voice_bridge_phone_number }
-  attribute :voice_bridge_phone_number, if: -> { Rails.application.config.voice_bridge_phone_number }
-
-  def presentation_name
-    presentation_file_name(object)
+class AddAutomatedDeletionOfExpiredRoomsSiteSetting < ActiveRecord::Migration[7.1]
+  def up
+    setting = Setting.create!(name: 'AutomatedDeletionOfExpiredRooms')
+    values = [{ provider: 'greenlight', setting_id: setting.id, value: 'true' }]
+    SiteSetting.create! values
   end
 
-  def thumbnail
-    presentation_thumbnail(object)
-  end
-
-  def owner_name
-    object.user.name
-  end
-
-  def voice_bridge_phone_number
-    Rails.application.config.voice_bridge_phone_number
+  def down
+    raise ActiveRecord::IrreversibleMigration
   end
 end
