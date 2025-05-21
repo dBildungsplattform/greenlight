@@ -24,10 +24,11 @@ jobs:
       actions: read
       contents: read
     needs: pre_build
-    uses: hpi-schul-cloud/infra-tools/.github/workflows/build-and-push.yaml@master
+    uses: dBildungsplattform/dbp-github-workflows/.github/workflows/image-publish-trivy.yaml@7
     with:
-      registry: ghcr.io
-      image: dbildungsplattform/greenlight
-      tag: ${{ needs.pre_build.outputs.tag }}
-      prefix: v
-      suffix: ${{ needs.pre_build.outputs.suffix }}
+      image_name: "greenlight"
+      image_tag_generation: "specified"
+      add_latest_tag: true
+      container_registry: "ghcr.io"
+      image_tag: ${{ format('v{0}{1}', needs.pre_build.outputs.tag, needs.pre_build.outputs.suffix) }}
+      run_clamav_scan: true
