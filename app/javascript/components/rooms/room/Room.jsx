@@ -33,6 +33,7 @@ import RoomNamePlaceHolder from './RoomNamePlaceHolder';
 import Modal from '../../shared_components/modals/Modal';
 import ShareRoomForm from './forms/ShareRoomForm';
 import Title from '../../shared_components/utilities/Title';
+import useRoomSettings from '../../../hooks/queries/rooms/useRoomSettings';
 
 export default function Room() {
   const { t } = useTranslation();
@@ -43,6 +44,7 @@ export default function Room() {
   const startMeeting = useStartMeeting(friendlyId);
   const currentUser = useAuth();
   const localizedTime = localizeDayDateTimeString(room?.last_session, currentUser?.language);
+  const roomSettings = useRoomSettings(friendlyId);
 
   return (
     <>
@@ -56,7 +58,7 @@ export default function Room() {
           </Col>
         </Row>
         <Row className="py-5">
-          <Col className="col-xxl-8">
+          <Col className="col-4">
             {
               isRoomLoading
                 ? (
@@ -81,36 +83,38 @@ export default function Room() {
             }
           </Col>
           <Col>
-          {
-                isRoomLoading
-                  ? (
-                    <RoomNamePlaceHolder />
-                  ) : (
-                    <>
-            <Button variant="brand" className="start-meeting-btn mt-1 mx-2 float-end" onClick={startMeeting.mutate} disabled={startMeeting.isLoading}>
-              {startMeeting.isLoading && <Spinner className="me-2" />}
-              {room?.online ? (
-                t('room.meeting.join_meeting')
-              ) : (
-                t('room.meeting.start_meeting')
-              )}
-            </Button>
-            <Modal
-              size="lg"
-              modalButton={(
+            <Row>
+              <Col className="col-12">
                 <Button
-                  variant="brand-outline"
-                  className="mt-1 mx-2 float-end"
+                  variant="brand"
+                  className="start-meeting-btn mt-1 mx-2 float-end"
+                  onClick={startMeeting.mutate}
+                  disabled={startMeeting.isLoading}
                 >
-                  <ShareIcon className="hi-s me-1" />
-                  {t('room.meeting.share_meeting')}
+                  {startMeeting.isLoading && <Spinner className="me-2" />}
+                  {room?.online ? (
+                    t('room.meeting.join_meeting')
+                  ) : (
+                    t('room.meeting.start_meeting')
+                  )}
                 </Button>
-              )}
-              title={t('room.meeting.share_meeting')}
-              body={<ShareRoomForm room={room} />}
-            />
-            </>
-            )}
+                <Modal
+                  size="lg"
+                  modalButton={(
+                    <Button
+                      variant="brand-outline"
+                      className="mt-1 mx-2 float-end"
+                      type="button"
+                    >
+                      <ShareIcon className="hi-s me-1" />
+                      {t('room.meeting.share_meeting')}
+                    </Button>
+                  )}
+                  title={t('room.meeting.share_meeting')}
+                  body={<ShareRoomForm room={room} roomSettings={roomSettings} />}
+                />
+              </Col>
+            </Row>
           </Col>
         </Row>
       </div>

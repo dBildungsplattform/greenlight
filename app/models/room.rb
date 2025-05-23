@@ -30,15 +30,16 @@ class Room < ApplicationRecord
   validates :name, presence: true
   validates :friendly_id, presence: true, uniqueness: true
   validates :meeting_id, presence: true, uniqueness: true
-  validates :voice_bridge, uniqueness: true
   validates :presentation,
             content_type: Rails.configuration.uploads[:presentations][:formats],
             size: { less_than: Rails.configuration.uploads[:presentations][:max_size] }
 
-  validates :name, length: { minimum: 2, maximum: 255 }
+  validates :name, length: { minimum: 1, maximum: 255 }
   validates :recordings_processing, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
-  before_validation :set_friendly_id, :set_meeting_id, :set_voice_brige, on: :create
+  before_validation :set_friendly_id, :set_meeting_id, on: :create
+  before_save :scan_presentation_for_virus
+
   after_create :create_meeting_options
 
   attr_accessor :shared, :active, :participants
@@ -101,15 +102,14 @@ class Room < ApplicationRecord
     retry
   end
 
-  # Create unique pin for voice brige max 10^5 - 10000 unique ids
-  def set_voice_brige
-    if Rails.application.config.voice_bridge_phone_number != nil
-      id = SecureRandom.random_number((10.pow(5)) - 1)
-      raise if Room.exists?(voice_bridge: id) || id < 10000
-    
-      self.voice_bridge = id
-    end
-  rescue StandardError
-    retry
+  def scan_presentation_for_virus
+    return if !virus_scan? || !attachment_changes['presentation']
+
+    path = attachment_changes['presentation']&.attachable&.tempfile&.path
+
+    return true if Clamby.safe?(path)
+
+    errors.add(:presentation, 'MalwareDetected')
+    throw :abort
   end
 end
