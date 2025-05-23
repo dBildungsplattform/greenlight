@@ -52,6 +52,9 @@ ActiveRecord::Schema[7.1].define(version: 2023_07_05_183747) do
     t.index ["recording_id"], name: "index_formats_on_recording_id"
   end
 
+  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
+  end
+
   create_table "invitations", force: :cascade do |t|
     t.string "email", null: false
     t.string "provider", null: false
