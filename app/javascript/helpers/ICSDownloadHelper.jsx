@@ -131,12 +131,19 @@ const createICSWithHtml = (name, roomName, url, voiceBridge, voiceBridgePhoneNum
   };
 }
 
-export const downloadICS = (name, room, url, voice_bridge, voice_bridge_phone_number, t, use_html) => {
-  createEvent(createICSContent(name, room, url, voice_bridge, voice_bridge_phone_number, t, use_html), (error, value) => {
-    if (error !== undefined){
-      throw new Error('Error creating ICS: ' + error);
+const createICSContent = (name, roomName, url, voiceBridge, voiceBridgePhoneNumber, t, useHtml) => {
+  if (useHtml) {
+    return createICSWithHtml(name, roomName, url, voiceBridge, voiceBridgePhoneNumber, t);
+  }
+  return createICSWithoutHTML(name, roomName, url, voiceBridge, voiceBridgePhoneNumber, t);
+};
+
+const downloadICS = (name, room, url, voiceBridge, voiceBridgePhoneNumber, t, useHtml) => {
+  createEvent(createICSContent(name, room, url, voiceBridge, voiceBridgePhoneNumber, t, useHtml), (error, value) => {
+    if (error !== undefined && error != null) {
+      throw new Error(`Error creating ICS: ${error}`);
     }
-    const blob = new Blob([value], { type: "text/plain;charset=utf-8" });
+    const blob = new Blob([value], { type: 'text/plain;charset=utf-8' });
     saveAs(blob, `bbb-meeting-${room.replace(/[/\\?%*:|"<>]/g, '')}.ics`);
   });
 };
