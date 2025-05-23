@@ -33,7 +33,7 @@ const createICSWithoutHTML = (name, roomName, url, voiceBridge, voiceBridgePhone
     title: roomName,
     location: t('room.meeting.location'),
   };
-}
+};
 
 const createICSWithHtml = (name, roomName, url, voiceBridge, voiceBridgePhoneNumber, t) => {
   let phoneData = '';
@@ -129,7 +129,7 @@ const createICSWithHtml = (name, roomName, url, voiceBridge, voiceBridgePhoneNum
     title: roomName,
     location: t('room.meeting.location'),
   };
-}
+};
 
 const createICSContent = (name, roomName, url, voiceBridge, voiceBridgePhoneNumber, t, useHtml) => {
   if (useHtml) {
@@ -147,4 +147,5 @@ const downloadICS = (name, room, url, voiceBridge, voiceBridgePhoneNumber, t, us
     saveAs(blob, `bbb-meeting-${room.replace(/[/\\?%*:|"<>]/g, '')}.ics`);
   });
 };
+
 export default downloadICS;
