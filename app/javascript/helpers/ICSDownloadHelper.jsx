@@ -147,3 +147,4 @@ const downloadICS = (name, room, url, voiceBridge, voiceBridgePhoneNumber, t, us
     saveAs(blob, `bbb-meeting-${room.replace(/[/\\?%*:|"<>]/g, '')}.ics`);
   });
 };
+export default downloadICS;
