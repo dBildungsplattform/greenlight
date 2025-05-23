@@ -43,6 +43,9 @@ ActiveRecord::Schema[7.2].define(version: 2023_12_18_154727) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
+  end
+
   create_table "formats", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "recording_id"
     t.string "recording_type", null: false
@@ -129,11 +132,9 @@ ActiveRecord::Schema[7.2].define(version: 2023_12_18_154727) do
     t.datetime "updated_at", null: false
     t.integer "recordings_processing", default: 0
     t.boolean "online", default: false
-    t.integer "voice_bridge"
     t.index ["friendly_id"], name: "index_rooms_on_friendly_id", unique: true
     t.index ["meeting_id"], name: "index_rooms_on_meeting_id", unique: true
     t.index ["user_id"], name: "index_rooms_on_user_id"
-    t.index ["voice_bridge"], name: "index_rooms_on_voice_bridge"
   end
 
   create_table "rooms_configurations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

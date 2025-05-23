@@ -16,10 +16,10 @@
 
 import React from 'react';
 import {
-  Stack, Button, Col, Row, Dropdown,
+  Stack, Button, Col, Row,
 } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
-import { HomeIcon, Square2StackIcon, PhoneIcon } from '@heroicons/react/24/outline';
+import { HomeIcon, Square2StackIcon, PhoneIcon, ShareIcon } from '@heroicons/react/24/outline';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../../contexts/auth/AuthProvider';
@@ -44,24 +44,6 @@ export default function Room() {
   const currentUser = useAuth();
   const localizedTime = localizeDayDateTimeString(room?.last_session, currentUser?.language);
   const roomSettings = useRoomSettings(friendlyId);
-
-  function copyInvite(role) {
-    if (role === 'viewer') {
-      navigator.clipboard.writeText(roomSettings?.data?.glViewerAccessCode);
-      toast.success(t('toast.success.room.copied_viewer_code'));
-    } else if (role === 'moderator') {
-      navigator.clipboard.writeText(roomSettings?.data?.glModeratorAccessCode);
-      toast.success(t('toast.success.room.copied_moderator_code'));
-    } else {
-      navigator.clipboard.writeText(`${window.location}/join`);
-      toast.success(t('toast.success.room.copied_meeting_url'));
-    }
-  }
-
-  function copyVoiceBridge(voiceBridge, voiceBridgePhoneNumber) {
-    navigator.clipboard.writeText(`Tel.: ${voiceBridgePhoneNumber} Pin: ${voiceBridge}`);
-    toast.success(t('toast.success.room.copied_voice_bridge'));
-  }
 
   return (
     <>
@@ -109,50 +91,27 @@ export default function Room() {
                   disabled={startMeeting.isLoading}
                 >
                   {startMeeting.isLoading && <Spinner className="me-2" />}
-                  { room?.online ? (
+                  {room?.online ? (
                     t('room.meeting.join_meeting')
                   ) : (
                     t('room.meeting.start_meeting')
                   )}
                 </Button>
-
-                <Dropdown className="btn-group mt-1 mx-2 float-end pb-5">
-                  <Button variant="brand-outline" type="button" className="btn dropdown-main" onClick={() => copyInvite()}>
-                    <Square2StackIcon className="hi-s me-1" />
-                    { t('copy') }
-                  </Button>
-                  {!isRoomLoading && typeof room.voice_bridge_phone_number !== 'undefined' && (
-                  <Button
-                    variant="brand-outline"
-                    type="button"
-                    className="btn dropdown-main"
-                    onClick={() => copyVoiceBridge(room?.voice_bridge, room?.voice_bridge_phone_number)}
-                  >
-                    <PhoneIcon className="hi-s me-1" />
-                    {t('copy_voice_bridge')}
-                  </Button>
-                  )}
-                  { (roomSettings?.data?.glModeratorAccessCode || roomSettings?.data?.glViewerAccessCode) && (
-                    <Dropdown.Toggle
+                <Modal
+                  size="lg"
+                  modalButton={(
+                    <Button
                       variant="brand-outline"
-                      className="btn dropdown-toggle dropdown-toggle-split"
-                      id="dropdown-toggle"
-                    />
+                      className="mt-1 mx-2 float-end"
+                      type="button"
+                    >
+                      <ShareIcon className="hi-s me-1" />
+                      {t('room.meeting.share_meeting')}
+                    </Button>
                   )}
-
-                  <Dropdown.Menu className="dropdown-menu">
-                    { roomSettings?.data?.glModeratorAccessCode && (
-                      <Dropdown.Item onClick={() => copyInvite('moderator')}>
-                        { t('copy_moderator_code') }
-                      </Dropdown.Item>
-                    )}
-                    { roomSettings?.data?.glViewerAccessCode && (
-                      <Dropdown.Item onClick={() => copyInvite('viewer')}>
-                        { t('copy_viewer_code') }
-                      </Dropdown.Item>
-                    )}
-                  </Dropdown.Menu>
-                </Dropdown>
+                  title={t('room.meeting.share_meeting')}
+                  body={<ShareRoomForm room={room} roomSettings={roomSettings} />}
+                />
               </Col>
             </Row>
           </Col>

@@ -27,6 +27,9 @@ import Spinner from '../shared_components/utilities/Spinner';
 import useStartMeeting from '../../hooks/mutations/rooms/useStartMeeting';
 import MeetingBadges from './MeetingBadges';
 import UserBoardIcon from './UserBoardIcon';
+import Modal from '../shared_components/modals/Modal';
+import ShareRoomForm from './room/forms/ShareRoomForm';
+import useRoomSettings from '../../hooks/queries/rooms/useRoomSettings';
 
 export default function RoomCard({ room }) {
   const { t } = useTranslation();
@@ -35,6 +38,7 @@ export default function RoomCard({ room }) {
   const startMeeting = useStartMeeting(room.friendly_id);
   const currentUser = useAuth();
   const localizedTime = localizeDateTimeString(room?.last_session, currentUser?.language);
+  const roomSettings = useRoomSettings(room.friendly_id);
 
   function copyInvite(friendlyId) {
     navigator.clipboard.writeText(`${window.location}/${friendlyId}/join`);
@@ -72,20 +76,19 @@ export default function RoomCard({ room }) {
         </Stack>
       </Card.Body>
       <Card.Footer className="bg-white">
-        <Button
-          variant="icon"
-          onClick={() => copyInvite(room.friendly_id)}
-        >
-          <DocumentDuplicateIcon className="hi-m mt-1 text-muted" />
-        </Button>
-        {typeof room.voice_bridge_phone_number !== 'undefined' && (
-        <Button
-          variant="icon"
-          onClick={() => copyVoiceBridge(room.voice_bridge, room.voice_bridge_phone_number)}
-        >
-          <PhoneIcon className="hi-m mt-1 text-muted" />
-        </Button>
-        )}
+        <Modal
+          size="lg"
+          modalButton={(
+            <Button
+              variant="icon"
+            >
+              <ShareIcon className="hi-m mt-1 text-muted" />
+            </Button>
+          )}
+          title={t('room.meeting.share_meeting')}
+          body={<ShareRoomForm room={room} friendly_id={room.friendly_id} roomSettings={roomSettings} />}
+        />
+
         <Button variant="brand-outline" className="btn btn-md float-end" onClick={startMeeting.mutate} disabled={startMeeting.isLoading}>
           {startMeeting.isLoading && <Spinner className="me-2" />}
           {room.online ? (
@@ -98,12 +101,6 @@ export default function RoomCard({ room }) {
     </Card>
   );
 }
-
-RoomCard.defaulProps = {
-  room: PropTypes.shape({
-    last_session: '',
-  }),
-};
 
 RoomCard.propTypes = {
   room: PropTypes.shape({
