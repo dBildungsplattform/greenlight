@@ -18,8 +18,7 @@ import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Card, Stack } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { DocumentDuplicateIcon, LinkIcon, PhoneIcon } from '@heroicons/react/24/outline';
-import { toast } from 'react-toastify';
+import { ShareIcon, LinkIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/auth/AuthProvider';
 import { localizeDateTimeString } from '../../helpers/DateTimeHelper';
@@ -40,16 +39,6 @@ export default function RoomCard({ room }) {
   const localizedTime = localizeDateTimeString(room?.last_session, currentUser?.language);
   const roomSettings = useRoomSettings(room.friendly_id);
 
-  function copyInvite(friendlyId) {
-    navigator.clipboard.writeText(`${window.location}/${friendlyId}/join`);
-    toast.success(t('toast.success.room.copied_meeting_url'));
-  }
-
-  function copyVoiceBridge(voiceBridge, voiceBridgePhoneNumber) {
-    navigator.clipboard.writeText(`Tel.: ${voiceBridgePhoneNumber} Pin: ${voiceBridge}`);
-    toast.success(t('toast.success.room.copied_voice_bridge'));
-  }
-
   return (
     <Card id="room-card" className="h-100 card-shadow border-0">
       <Card.Body className="pb-0" onClick={handleClick}>
@@ -66,7 +55,7 @@ export default function RoomCard({ room }) {
         <Stack className="my-4">
           <Card.Title className="mb-0"> {room.name} </Card.Title>
           {room.shared_owner && (
-            <span className="text-muted">{ t('room.shared_by') } {' '} <strong>{ room.shared_owner }</strong></span>
+            <span className="text-muted">{t('room.shared_by')} {' '} <strong>{room.shared_owner}</strong></span>
           )}
           {room.last_session ? (
             <span className="text-muted"> {t('room.last_session', { localizedTime })} </span>
