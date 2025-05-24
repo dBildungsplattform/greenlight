@@ -30,6 +30,8 @@ import useStartMeeting from '../../../hooks/mutations/rooms/useStartMeeting';
 import MeetingBadges from '../MeetingBadges';
 import SharedBadge from './SharedBadge';
 import RoomNamePlaceHolder from './RoomNamePlaceHolder';
+import Modal from '../../shared_components/modals/Modal';
+import ShareRoomForm from './forms/ShareRoomForm';
 import Title from '../../shared_components/utilities/Title';
 import useRoomSettings from '../../../hooks/queries/rooms/useRoomSettings';
 
