@@ -22,6 +22,8 @@ class CurrentRoomSerializer < ApplicationSerializer
   attributes :id, :name, :presentation_name, :thumbnail, :online, :participants, :shared, :owner_name
 
   attribute :last_session, if: -> { object.last_session }
+  attribute :voice_bridge, if: -> { Rails.application.config.voice_bridge_phone_number }
+  attribute :voice_bridge_phone_number, if: -> { Rails.application.config.voice_bridge_phone_number }
 
   def presentation_name
     presentation_file_name(object)
@@ -33,5 +35,9 @@ class CurrentRoomSerializer < ApplicationSerializer
 
   def owner_name
     object.user.name
+  end
+
+  def voice_bridge_phone_number
+    Rails.application.config.voice_bridge_phone_number
   end
 end
