@@ -30,7 +30,9 @@ RUN apk update \
 
 FROM base AS prod
 
-ARG PACKAGES='libpq-dev tzdata imagemagick yarn bash jpeg-dev'
+RUN addgroup -S -g 1000 greenlight && adduser -S -G greenlight -u 999 greenlight
+
+ARG PACKAGES='libpq-dev tzdata imagemagick yarn bash jpeg-dev clamav-clamdscan'
 COPY --from=build $RAILS_ROOT/vendor/bundle ./vendor/bundle
 COPY package.json yarn.lock ./
 RUN apk update \
@@ -40,6 +42,9 @@ RUN apk update \
 COPY . ./
 RUN apk update \
     && apk upgrade
+
+RUN chown -R greenlight /usr/src/app
+USER 999
 
 EXPOSE ${PORT}
 ENTRYPOINT [ "./bin/start" ]
