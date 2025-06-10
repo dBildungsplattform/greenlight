@@ -22,7 +22,6 @@ class CurrentRoomSerializer < ApplicationSerializer
   attributes :id, :name, :presentation_name, :thumbnail, :online, :participants, :shared, :owner_name
 
   attribute :last_session, if: -> { object.last_session }
-
   attribute :voice_bridge, if: -> { Rails.application.config.voice_bridge_phone_number }
   attribute :voice_bridge_phone_number, if: -> { Rails.application.config.voice_bridge_phone_number }
 

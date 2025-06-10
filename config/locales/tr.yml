@@ -47,7 +47,7 @@
 
 tr:
   opengraph:
-    description: "Sorunsuz sanal işbirliği ve çevrim içi öğrenme deneyimi sağlayan, güvenilir açık kaynaklı internet konferansı çözümü BigBlueButton uygulamasını kullanarak öğrenin."
+    description: "Sorunsuz sanal işbirliği ve çevrim içi öğrenme deneyimleri sağlayan, güvenilir ve açık kaynaklı İnternet üzerinden görüşme çözümü BigBlueButton uygulamasını kullanarak öğrenin."
   meeting:
     moderator_message: "Toplantıya katılmasını istediğiniz kişilere bu bağlantıyı gönderin: "
     access_code: "Erişim kodu: %{code}"
@@ -63,7 +63,7 @@ tr:
       invitation_to_join: BigBlueButton çağrısı
       you_have_been_invited: "%{name} tarafından bir BigBlueButton hesabı açmaya çağrıldınız."
       get_started: Hesap açmak için aşağıdaki düğmeye tıklayın ve yönergeleri izleyin.
-      valid_invitation: Bu çağrı 24 saat süreyle geçerlidir.
+      valid_invitation: Çağrı 7 gün boyunca geçerlidir.
       sign_up: Hesap aç
     new_user_signup:
       new_user: Yeni BigBlueButton kullanıcı hesabı açılışı

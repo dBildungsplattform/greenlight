@@ -1,4 +1,4 @@
-FROM ruby:alpine3.17 AS base
+FROM ruby:3.3.6-alpine3.20 AS base
 
 ARG RAILS_ROOT=/usr/src/app
 ENV RAILS_ROOT=${RAILS_ROOT}
@@ -19,7 +19,7 @@ WORKDIR $RAILS_ROOT
 RUN bundle config --local deployment 'true' \
     && bundle config --local without 'development:test'
 
-FROM base as build
+FROM base AS build
 
 ARG PACKAGES='alpine-sdk libpq-dev'
 COPY Gemfile Gemfile.lock ./
@@ -28,9 +28,11 @@ RUN apk update \
     && bundle install --no-cache \
     && bundle doctor
 
-FROM base as prod
+FROM base AS prod
 
-ARG PACKAGES='libpq-dev tzdata imagemagick yarn bash'
+RUN addgroup -S -g 1000 greenlight && adduser -S -G greenlight -u 999 greenlight
+
+ARG PACKAGES='libpq-dev tzdata imagemagick yarn bash jpeg-dev clamav-clamdscan'
 COPY --from=build $RAILS_ROOT/vendor/bundle ./vendor/bundle
 COPY package.json yarn.lock ./
 RUN apk update \
@@ -39,8 +41,10 @@ RUN apk update \
     && yarn cache clean
 COPY . ./
 RUN apk update \
-    && apk upgrade \
-    && update-ca-certificates
+    && apk upgrade
+
+RUN chown -R greenlight /usr/src/app
+USER 999
 
 EXPOSE ${PORT}
 ENTRYPOINT [ "./bin/start" ]

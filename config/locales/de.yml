@@ -63,8 +63,15 @@ de:
       invitation_to_join: BigBlueButton-Einladung
       you_have_been_invited: "Du wurdest von %{name} eingeladen, ein BigBlueButton-Konto zu erstellen."
       get_started: "Um dich zu registrieren, klicken bitte auf diese Schaltfläche."
-      valid_invitation: Die Einladung ist 24 Stunden gültig.
+      valid_invitation: Die Einladung ist 7 Tage gültig.
       sign_up: Registrieren
+    new_user_signup:
+      new_user: Anmeldung eines neuen BigBlueButton-Nutzers
+      new_user_description: Ein neuer Nutzer hat sich angemeldet um BigBlueButton zu benutzen.
+      name: "Name: %{name}"
+      email: "E-Mail: %{email}"
+      admin_panel: "Administrator-Panel"
+      take_action: "Besuchen Sie das Administrator-Panel um den neuen Nutzer zu sehen und entsprechende Maßnahmen zu ergreifen"
     reset:
       password_reset: Passwort zurücksetzen
       password_reset_requested: "Eine Passwortrücksetzung wurde für %{email} beantragt."
@@ -73,4 +80,4 @@ de:
       link_expires: Der Link wird in 1 Stunde ungültig.
       ignore_request: "Wenn du dein Passwort nicht ändern wolltest, dann ignoriere bitte diese E-Mail."
   room:
-    new_room_name: "%{username}'s Raum"
+    new_room_name: "Raum von %{username}"
