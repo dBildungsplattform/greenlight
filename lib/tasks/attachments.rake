@@ -16,6 +16,18 @@
 
 # frozen_string_literal: true
 
-class TenantSerializer < ApplicationSerializer
-  attributes :id, :name, :client_secret, :region
+require_relative 'task_helpers'
+
+namespace :attachments do
+  desc 'Checks that the application was configured correctly'
+  task start: :environment do
+    ActiveStorage::Blob.update_all(service_name: 'mirror') # rubocop:disable Rails/SkipsModelValidations
+    ActiveStorage::Blob.find_each(&:mirror_later)
+    success('Started mirroring process...')
+  end
+
+  task :finish, %i[new_service] => :environment do |_task, args|
+    ActiveStorage::Blob.update_all(service_name: args[:new_service]) # rubocop:disable Rails/SkipsModelValidations
+    success('Finished mirroring process...')
+  end
 end
