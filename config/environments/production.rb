@@ -55,7 +55,9 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = if ENV['S3_ACCESS_KEY_ID'].present? && ENV['S3_ENDPOINT'].present?
+  config.active_storage.service = if ENV['AS_MIRROR_PRIMARY'].present?
+                                    :mirror
+                                  elsif ENV['S3_ACCESS_KEY_ID'].present? && ENV['S3_ENDPOINT'].present?
                                     :s3
                                   elsif ENV['S3_ACCESS_KEY_ID'].present?
                                     :amazon
@@ -172,10 +174,5 @@ Rails.application.configure do
   config.active_record.attributes_for_inspect = [:id]
 
   # Enable DNS rebinding protection and other `Host` header attacks.
-  # config.hosts = [
-  #   "example.com",     # Allow requests from example.com
-  #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
-  # ]
-  # Skip DNS rebinding protection for the default health check endpoint.
-  # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+  config.hosts << ENV.fetch('URL_HOST') if ENV['URL_HOST'].present?
 end
