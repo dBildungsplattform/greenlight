@@ -1,0 +1,34 @@
+---
+name: Build and push Docker Image on Tag
+
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9].*'
+jobs:
+  pre_build:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.tag.outputs.tag }}
+      suffix: ${{ steps.tag.outputs.suffix }}
+    steps:
+      - name: Filter Tag name
+        uses: olegtarasov/get-tag@v2.1
+        id: tag
+        with:
+          tagRegex: "(?<tag>[0-9]+.[0-9]+.[0-9])(?<suffix>.*)"
+  build_and_push:
+    permissions:
+      packages: write
+      security-events: write
+      actions: read
+      contents: read
+    needs: pre_build
+    uses: dBildungsplattform/dbp-github-workflows/.github/workflows/image-publish-trivy.yaml@8
+    with:
+      image_name: "greenlight"
+      image_tag_generation: "specified"
+      add_latest_tag: true
+      container_registry: "ghcr.io"
+      image_tag: ${{ format('v{0}{1}', needs.pre_build.outputs.tag, needs.pre_build.outputs.suffix) }}
+      run_clamav_scan: true
